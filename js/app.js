@@ -1,4 +1,4 @@
-const WA_NUMBER = "573045567994";
+const WA_NUMBER = "573045567944";
 const money = n => "$" + n.toLocaleString("es-CO");
 
 /* ---------- placeholder catalog ---------- */
