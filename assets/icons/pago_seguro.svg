@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1080 1080">
+  <defs>
+    <style>
+      .st0 { fill: #111; }
+    </style>
+  </defs>
+  <!-- card body with magnetic stripe cut out (evenodd) -->
+  <path class="st0" fill-rule="evenodd" d="M170,300h740c33.14,0,60,26.86,60,60v360c0,33.14-26.86,60-60,60H170c-33.14,0-60-26.86-60-60v-360c0-33.14,26.86-60,60-60ZM160,410v70h760v-70H160Z"/>
+  <rect class="st0" x="180" y="560" width="150" height="40" rx="20"/>
+  <rect class="st0" x="360" y="560" width="150" height="40" rx="20"/>
+  <!-- padlock body with keyhole as real transparent cutout (evenodd) -->
+  <path class="st0" fill-rule="evenodd" d="M690,650h230c22.09,0,40,17.91,40,40v190c0,22.09-17.91,40-40,40h-230c-22.09,0-40-17.91-40-40v-190c0-22.09,17.91-40,40-40ZM769,765a36,36 0 1,0 72,0a36,36 0 1,0 -72,0ZM790,796h30l12,70h-54l12-70Z"/>
+  <!-- padlock shackle (U band, transparent center) -->
+  <path class="st0" d="M805,540c-63.51,0-115,51.49-115,115v40h60v-40c0-30.38,24.62-55,55-55s55,24.62,55,55v40h60v-40c0-63.51-51.49-115-115-115Z"/>
+</svg>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1080 1080">
+  <defs>
+    <style>
+      .st0 { fill: #111; }
+    </style>
+  </defs>
+  <!-- cargo body -->
+  <path class="st0" d="M150,330h430c22.09,0,40,17.91,40,40v300c0,22.09-17.91,40-40,40H150c-22.09,0-40-17.91-40-40v-300c0-22.09,17.91-40,40-40Z"/>
+  <!-- cab -->
+  <path class="st0" d="M660,420h150c14.5,0,27.8,7.85,34.83,20.5l70,126c3.4,6.12,5.17,13,5.17,20v83.5c0,22.09-17.91,40-40,40h-220c-22.09,0-40-17.91-40-40v-210c0-22.09,17.91-40,40-40ZM720,470v90h160l-50-90h-110Z"/>
+  <!-- wheels (rings, evenodd) -->
+  <path class="st0" fill-rule="evenodd" d="M370,690a95,95 0 1,0 190,0a95,95 0 1,0 -190,0ZM425,690a40,40 0 1,1 80,0a40,40 0 1,1 -80,0Z"/>
+  <path class="st0" fill-rule="evenodd" d="M735,690a95,95 0 1,0 190,0a95,95 0 1,0 -190,0ZM790,690a40,40 0 1,1 80,0a40,40 0 1,1 -80,0Z"/>
+  <!-- speed lines -->
+  <rect class="st0" x="60" y="430" width="120" height="34" rx="17"/>
+  <rect class="st0" x="30" y="510" width="90" height="34" rx="17"/>
+  <rect class="st0" x="60" y="590" width="120" height="34" rx="17"/>
+</svg>

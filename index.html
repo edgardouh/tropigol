@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tropigol · Camisetas de fútbol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ============ SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-player" viewBox="0 0 1080 1080"><path fill="currentColor" fill-rule="evenodd" d="M650.97,128.27c-8.28,54.62-55.72,95.42-110.97,95.42s-102.69-40.8-110.97-95.42L45,274.67l59.33,237.04,139.4-80.48v519.74h592.54V431.24l139.4,80.48,59.33-237.04-384.03-146.4ZM668.65,779.94l-128.65-93.47-128.65,93.47,49.14-151.24-128.65-93.47h159.02l49.14-151.24,49.14,151.24h159.02l-128.65,93.47,49.14,151.24Z"/></symbol><symbol id="i-fan" viewBox="0 0 1080 1080"><path fill="currentColor" fill-rule="evenodd" d="M651.25,127.61c-8.3,54.76-55.86,95.66-111.25,95.66s-102.95-40.9-111.25-95.66L43.75,274.38l59.48,237.64,139.75-80.68v521.05h594.04V431.34l139.75,80.68,59.48-237.64-385-146.77Z"/></symbol><symbol id="i-uniforme" viewBox="0 0 1080 1080"><path fill="currentColor" fill-rule="evenodd" d="M836.25,473.21v-165.12l139.42,80.5,59.33-237.07L650.94,5.15c-8.27,54.6-55.7,95.4-110.96,95.4s-102.69-40.8-110.96-95.4L45,151.53l59.33,237.07,139.38-80.5v519.78h129.98v-298.23c0-10.06,2.36-19.67,6.88-28.26,4.52-8.55,11.2-16.33,21.01-21.95,6.52-3.66,14.62-6.23,23.45-6.23h411.22Z"/>
+  <path fill="currentColor" fill-rule="evenodd" d="M1019.85,509.86H425.05c-7.57,0-14.73,8.55-14.73,19.8v524.64c0,11.25,7.17,19.8,14.73,19.8h269.93l27.47-282.12,27.48,282.12h269.93c7.59,0,15.14-8.55,15.14-19.8v-524.64c0-11.25-7.55-19.8-15.14-19.8Z"/></symbol><symbol id="i-retro" viewBox="0 0 1080 1080"><path fill="currentColor" d="M693.78,162.83c0,1.34-.2,2.69-.69,3.99-12.91,36.32-31.15,70.48-48.82,103.55-6.88,12.87-14.01,26.22-20.64,39.38-.9,1.83-2.24,3.38-3.87,4.52l-2.24,1.55c-2.12,1.51-4.56,2.24-7,2.24-3.3,0-6.56-1.34-8.96-3.91l-43.08-46.22v130.67h-36.93v-128.88c-7.17,7.78-14.33,15.23-20.73,21.79-1.26,1.34-2.93,3.09-4.72,5.05-7.45,8.02-13.6,14.46-18.41,17.96-2.69,2.44-5.78,3.66-9.28,3.66-1.26,0-2.61-.16-3.91-.53-3.34-.9-6.19-3.22-7.74-6.31-7.17-14.37-14.98-28.87-22.52-42.88-12.17-22.6-24.8-45.97-35.38-70.04-.41-.94-.94-2.08-1.55-3.42-6.88-15.27-10.46-24.15-10.91-30.13l-.04-.41c-.04-.45-.08-1.02-.08-1.67L45,292.88l59.33,237.07,139.42-80.5v519.78h592.54V449.45l139.38,80.5,59.33-237.07-341.22-130.06Z"/>
+  <path fill="currentColor" d="M416.82,194.46c16.07,34.15,36.88,66.35,54.66,99.69,1.4.35,1.53-.35,2.31-.85,5.29-3.42,15.68-14.52,20.79-19.44,9.15-8.83,18.52-18.03,27.23-27.24,1.66-1.76,12.55-13.25,12.39-14.16-40.89-31.94-80.8-69.98-96.42-118.98l-31.35,51.05c-.77,1.19-.55,2.42-.44,3.72.41,5.18,8.21,20.58,10.85,26.21Z"/>
+  <path fill="currentColor" d="M545.37,232.44l61.43,61.69,2.12-1.39c22.35-41.5,48.56-81.61,65.24-125.57-9.98-18.24-20.68-36.55-32.78-53.69-14.6,48.8-55.4,87.51-96.01,118.95Z"/>
+  <path fill="currentColor" d="M470.25,157.41l140.49.02c8.43-15.46,17.44-30.81,23.22-47.41-2.51.82-5.34,1.29-7.97,1.6-47.1,5.62-90.06,7.38-137.44,3.57-13.98-1.12-27.99-3.51-42.02-4.31,1.59,6.69,19.21,45.23,23.72,46.51Z"/></symbol><symbol id="i-carrito" viewBox="0 0 1080 1080"><path fill="currentColor" d="M356.78,645.89l7.82,50.76,522.61.03c66.29,5.41,67.88,92.5,5.21,102.8l-574.1.06c-30.1-2.61-45.84-24.95-49.66-53.18L174.4,182.61c-17.16-.42-34.13,1.65-51.34,1.22-7.51-.19-18.6-.64-25.97-1.37-58.57-5.75-65.92-98.83,9-102.83,32.88-1.76,73.86-1.38,106.88-.04,9.64.39,20.02.71,28.82,5.02,33.36,16.32,29.84,64.54,37.08,95.69l3.03,2.17,706.89-.05c31.25,2.3,50.73,21.38,52.72,52.71l-51.23,360.23c-.64,23.91-23.98,50.53-48.4,50.53H356.78ZM475.24,286.61h-178.34l16.92,101.53h159.46c.14,0,1.95-1.81,1.95-1.95v-99.58ZM680.91,286.61h-152.3v101.53l152.3-1.31v-100.22ZM929.54,286.61h-195.26l.65,101.53h180.29l14.32-101.53ZM473.93,440.22h-151l15.62,101.53h135.38v-101.53ZM680.91,440.22h-152.3v101.53h152.3v-101.53ZM907.41,440.22h-174.43v101.53h159.46l14.97-101.53Z"/>
+  <path fill="currentColor" d="M848.54,851.93c88.22-10.54,122.83,102.62,50.15,143.87-54.29,30.81-120.89-14.36-114.79-75.74,3.2-32.14,32.08-64.24,64.64-68.14Z"/>
+  <path fill="currentColor" d="M386.43,851.93c71.61-8.59,116.9,71.47,70.54,126.52-51.51,61.16-151.08,11.61-133.65-68.57,6.13-28.19,34.29-54.49,63.11-57.95Z"/></symbol><symbol id="i-calidad" viewBox="0 0 1080 1080"><path fill="currentColor" d="M545,49.62c-273.49,0-495,221.51-495,495s221.51,495,495,495,495-221.82,495-495S818.49,49.62,545,49.62ZM672.15,719.73l-127.15-82.29-127.15,82.29,38.98-146.33-117.87-95.6,151.59-8.35,54.45-141.38,54.45,141.38,151.59,8.35-117.87,95.6,38.98,146.33Z"/></symbol><symbol id="i-garantia" viewBox="0 0 1080 1080"><path fill="currentColor" d="M916.18,185.92h0S555.55,50.68,555.55,50.68c-3.4-1.28-6.98-1.92-10.55-1.92-3.58,0-7.16.64-10.56,1.92L173.82,185.92c-11.73,4.39-19.5,15.61-19.5,28.14v345.59c-.04,106.2,32.08,200.13,95.69,280.16,63.59,80.06,158.36,146.25,283.43,198.36,3.7,1.55,7.63,2.31,11.55,2.31,3.92,0,7.86-.76,11.56-2.31,125.07-52.11,219.83-118.3,283.43-198.36,63.61-80.04,95.73-173.96,95.69-280.16V214.06c0-12.53-7.77-23.74-19.5-28.14ZM875.58,559.65c-.04,93.42-27.09,173.78-82.11,243.24-54.55,68.81-137.03,126.88-248.46,174.83-111.42-47.95-193.91-106.03-248.46-174.83-55.03-69.46-82.07-149.82-82.11-243.24V234.88l330.58-123.97,330.57,123.97v324.77Z"/>
+  <polygon fill="currentColor" points="311.65 516.57 491.62 760.78 822.54 336.44 491.62 580.78 311.65 516.57"/></symbol><symbol id="i-varios" viewBox="0 0 1080 1080"><path fill="currentColor" fill-rule="evenodd" d="M266.37,551.8l-4.91-19.66-34.76-138.9-3.31-13.17,12.69-4.83,143.49-54.71-69.14-26.35c-3.88,25.64-26.14,44.79-52.07,44.79s-48.19-19.15-52.07-44.79L26.06,362.89l27.84,111.23,65.43-37.76v243.9h223.36v-172.53l-58.76,33.92-17.56,10.15Z"/>
+  <path fill="currentColor" fill-rule="evenodd" d="M873.73,294.17c-3.88,25.64-26.14,44.79-52.07,44.79s-48.19-19.15-52.07-44.79l-77.54,29.56,135.06,51.5,12.67,4.83-3.29,13.17-34.76,138.9-4.93,19.66-17.54-10.15-58.76-33.92v172.53h240.2v-243.9l65.43,37.76,27.82-111.23-180.22-68.72Z"/>
+  <path fill="currentColor" fill-rule="evenodd" d="M821.65,389.52l-225.04-85.79c-4.85,32.01-32.65,55.92-65.02,55.92s-60.18-23.91-65.02-55.92l-225.04,85.79,34.76,138.91,81.69-47.16v304.56h347.22v-304.56l81.69,47.16,34.76-138.91Z"/></symbol><symbol id="i-s1" viewBox="0 0 1080 1080"><path fill="currentColor" d="M964.29,836.63c-11.01,0-21.31,2.74-30.61,7.23l-338.83-290.43c27.81-45.21,44.14-98.25,44.15-155.23-.03-164.04-132.95-296.97-297-297-164.05.03-296.97,132.96-297,297,.03,164.04,132.95,296.97,297,297,86.66-.01,164.4-37.35,218.69-96.55l336.25,288.22c-1.98,6.52-3.37,13.3-3.37,20.47,0,39.05,31.66,70.71,70.71,70.71s70.71-31.66,70.71-70.71-31.66-70.71-70.71-70.71ZM492.01,548.21c-38.53,38.46-91.29,62.11-150.01,62.13-58.72-.02-111.48-23.68-150.01-62.13-38.46-38.53-62.11-91.29-62.14-150.01.02-58.72,23.68-111.48,62.14-150.01,38.53-38.46,91.29-62.11,150.01-62.14,58.72.02,111.48,23.68,150.01,62.14,38.46,38.52,62.11,91.29,62.14,150.01-.02,58.72-23.68,111.48-62.14,150.01Z"/>
+  <path fill="currentColor" d="M341.08,280.46c-5.91,3.54-11.77,6.74-17.57,9.61-5.8,2.87-11.68,5.47-17.65,7.79-5.97,2.32-12.15,4.53-18.56,6.63v32.82c10.28-2.65,19.42-5.72,27.43-9.2,8.01-3.48,15.5-7.71,22.46-12.68v195.9h38.45v-242.97h-16.24c-6.3,4.53-12.4,8.56-18.31,12.1Z"/></symbol><symbol id="i-s2" viewBox="0 0 1080 1080"><path fill="currentColor" d="M720,194.62c-173.99.03-314.97,141.01-315,315,0,39.99,7.76,78.09,21.35,113.29l-258.62,129.31c-13-10.82-29.49-17.59-47.73-17.59-41.42,0-75,33.58-75,75s33.58,75,75,75,75-33.58,75-75c0-1.29-.31-2.49-.38-3.77l258.6-129.3c55.7,88.82,154.19,148.05,266.78,148.07,173.99-.03,314.97-141.01,315-315-.03-173.99-141.01-314.97-315-315ZM879.1,668.73c-40.86,40.79-96.82,65.88-159.1,65.9-62.28-.02-118.24-25.11-159.1-65.9-40.79-40.86-65.88-96.82-65.9-159.1.02-62.27,25.11-118.24,65.9-159.1,40.86-40.79,96.82-65.88,159.1-65.9,62.27.02,118.24,25.12,159.1,65.9,40.79,40.86,65.88,96.82,65.9,159.1-.02,62.28-25.11,118.24-65.9,159.1Z"/>
+  <path fill="currentColor" d="M681.77,593.75c0-5.04,1.67-10.05,5.01-15.03,3.34-4.98,7.71-9.96,13.1-14.94,5.39-4.98,11.45-10.08,18.19-15.29,6.74-5.21,13.51-10.58,20.3-16.08,8.09-6.68,15.41-13.18,21.97-19.51s12.16-13.01,16.79-20.04,8.2-14.62,10.72-22.76c2.52-8.14,3.78-17.31,3.78-27.51,0-11.25-1.79-21.21-5.36-29.88-3.57-8.67-8.64-15.91-15.21-21.71-6.56-5.8-14.47-10.2-23.73-13.18-9.26-2.99-19.57-4.48-30.94-4.48-7.03,0-13.65.47-19.86,1.41-6.21.94-12.13,2.37-17.75,4.31s-11.07,4.34-16.35,7.21c-5.27,2.87-10.49,6.24-15.64,10.11v39.2c9.84-9.61,20.1-16.82,30.76-21.62,10.66-4.8,21.15-7.21,31.46-7.21,5.98,0,11.48.85,16.52,2.55,5.04,1.7,9.4,4.22,13.1,7.56,3.69,3.34,6.56,7.5,8.61,12.48,2.05,4.98,3.08,10.81,3.08,17.49,0,6.09-.88,11.75-2.64,16.96-1.76,5.21-4.22,10.17-7.38,14.85-3.16,4.69-6.97,9.23-11.43,13.62-4.45,4.39-9.37,8.88-14.77,13.45-5.74,4.8-11.6,9.58-17.58,14.33-5.98,4.75-11.84,9.67-17.58,14.77-5.74,5.1-11.13,10.37-16.17,15.82-5.04,5.45-9.43,11.25-13.18,17.4-3.75,6.15-6.74,12.72-8.96,19.69-2.23,6.97-3.34,14.44-3.34,22.41v19.51h158.2v-34.98h-113.73v-.88Z"/></symbol><symbol id="i-s3" viewBox="0 0 1080 1080"><path fill="currentColor" d="M960.16,113.5c-44.09,0-79.84,35.75-79.84,79.84,0,7.16,1.24,13.96,3.01,20.56l-250.75,200.6c-61.31-67.06-149.22-109.37-247.26-109.39-185.21.03-335.29,150.11-335.32,335.32.03,185.21,150.11,335.29,335.32,335.32,185.21-.03,335.29-150.11,335.32-335.32,0-64.18-18.36-123.93-49.62-174.89l252.25-201.8c11.08,5.82,23.51,9.43,36.89,9.43,44.09,0,79.84-35.74,79.84-79.84s-35.75-79.84-79.84-79.84ZM554.69,809.8c-43.5,43.42-103.07,70.13-169.36,70.15-66.29-.02-125.87-26.73-169.36-70.15-43.42-43.5-70.13-103.07-70.15-169.36.03-66.29,26.74-125.87,70.15-169.36,43.5-43.42,103.07-70.13,169.36-70.15,66.29.03,125.87,26.74,169.36,70.15,43.42,43.49,70.13,103.07,70.15,169.36-.03,66.29-26.74,125.87-70.15,169.36Z"/>
+  <path fill="currentColor" d="M401.5,628.19v-.75c35.93-10.1,53.89-32.81,53.89-68.11,0-18.71-7.17-34.06-21.52-46.03-14.35-11.98-33.43-17.96-57.26-17.96s-46.34,5.11-64.56,15.34v38.55c15.84-12.85,32.75-19.27,50.71-19.27,32.18,0,48.28,13.22,48.28,39.67,0,28.69-20.65,43.04-61.94,43.04h-19.83v34.81h20.77c46.53,0,69.8,15.22,69.8,45.66,0,13.85-5.33,24.82-16,32.93-10.67,8.11-24.92,12.16-42.76,12.16-21.96,0-41.67-6.92-59.13-20.77v40.79c15.84,9.61,37.05,14.41,63.62,14.41,29.57,0,53.39-7.39,71.48-22.17,18.09-14.78,27.13-34.21,27.13-58.29,0-17.46-5.61-32.03-16.84-43.69-11.23-11.66-26.51-18.43-45.85-20.3Z"/></symbol><symbol id="i-envio" viewBox="0 0 1080 1080"><path fill="currentColor" d="M150,330h430c22.09,0,40,17.91,40,40v300c0,22.09-17.91,40-40,40H150c-22.09,0-40-17.91-40-40v-300c0-22.09,17.91-40,40-40Z"/>
+  
+  <path fill="currentColor" d="M660,420h150c14.5,0,27.8,7.85,34.83,20.5l70,126c3.4,6.12,5.17,13,5.17,20v83.5c0,22.09-17.91,40-40,40h-220c-22.09,0-40-17.91-40-40v-210c0-22.09,17.91-40,40-40ZM720,470v90h160l-50-90h-110Z"/>
+  
+  <path fill="currentColor" fill-rule="evenodd" d="M370,690a95,95 0 1,0 190,0a95,95 0 1,0 -190,0ZM425,690a40,40 0 1,1 80,0a40,40 0 1,1 -80,0Z"/>
+  <path fill="currentColor" fill-rule="evenodd" d="M735,690a95,95 0 1,0 190,0a95,95 0 1,0 -190,0ZM790,690a40,40 0 1,1 80,0a40,40 0 1,1 -80,0Z"/>
+  
+  <rect fill="currentColor" x="60" y="430" width="120" height="34" rx="17"/>
+  <rect fill="currentColor" x="30" y="510" width="90" height="34" rx="17"/>
+  <rect fill="currentColor" x="60" y="590" width="120" height="34" rx="17"/></symbol><symbol id="i-pago" viewBox="0 0 1080 1080"><path fill="currentColor" fill-rule="evenodd" d="M170,300h740c33.14,0,60,26.86,60,60v360c0,33.14-26.86,60-60,60H170c-33.14,0-60-26.86-60-60v-360c0-33.14,26.86-60,60-60ZM160,410v70h760v-70H160Z"/>
+  <rect fill="currentColor" x="180" y="560" width="150" height="40" rx="20"/>
+  <rect fill="currentColor" x="360" y="560" width="150" height="40" rx="20"/>
+  
+  <path fill="currentColor" fill-rule="evenodd" d="M690,650h230c22.09,0,40,17.91,40,40v190c0,22.09-17.91,40-40,40h-230c-22.09,0-40-17.91-40-40v-190c0-22.09,17.91-40,40-40ZM769,765a36,36 0 1,0 72,0a36,36 0 1,0 -72,0ZM790,796h30l12,70h-54l12-70Z"/>
+  
+  <path fill="currentColor" d="M805,540c-63.51,0-115,51.49-115,115v40h60v-40c0-30.38,24.62-55,55-55s55,24.62,55,55v40h60v-40c0-63.51-51.49-115-115-115Z"/></symbol><symbol id="i-search" viewBox="0 0 640 640"><path fill="currentColor" d="M505 465 385 345a205 205 0 1 0-40 40l120 120a28 28 0 0 0 40-40zM100 235a135 135 0 1 1 270 0 135 135 0 0 1-270 0z" transform="translate(20 20)"/></symbol><symbol id="i-arrow" viewBox="0 0 640 640"><path fill="currentColor" d="M300 100l-45 44 143 143H80v62h318L255 592l45 44 220-220z"/></symbol><symbol id="i-menu" viewBox="0 0 640 640"><rect fill="currentColor" x="120" y="200" width="440" height="60" rx="30"/><rect fill="currentColor" x="120" y="320" width="440" height="60" rx="30"/><rect fill="currentColor" x="120" y="440" width="440" height="60" rx="30"/></symbol><symbol id="i-filter" viewBox="0 0 640 640"><path fill="currentColor" d="M120 160h440a20 20 0 0 1 15 33L430 360v170l-100 70V360L185 193a20 20 0 0 1 15-33z"/></symbol><symbol id="i-whatsapp" viewBox="0 0 640 640"><path fill="currentColor" d="M340 80a258 258 0 0 0-220 391L92 600l134-27a258 258 0 1 0 114-493zm0 66a192 192 0 1 1-104 353l-9-6-72 15 15-70-6-10A192 192 0 0 1 340 146zm108 231c-6-3-35-17-40-19s-9-3-13 3-15 19-18 22-7 4-13 1a157 157 0 0 1-46-28 173 173 0 0 1-32-40c-3-6 0-9 3-12l9-11c3-4 4-6 6-10s1-8 0-11-13-31-18-43-9-10-13-10h-11a21 21 0 0 0-15 7c-5 6-20 19-20 46s20 54 23 58 39 60 95 84c56 24 56 16 66 15s31-13 36-25 5-23 3-25z"/></symbol><symbol id="i-ig" viewBox="0 0 640 640"><path fill="currentColor" d="M200 100h200a100 100 0 0 1 100 100v200a100 100 0 0 1-100 100H200a100 100 0 0 1-100-100V200a100 100 0 0 1 100-100zm0 50a50 50 0 0 0-50 50v200a50 50 0 0 0 50 50h200a50 50 0 0 0 50-50V200a50 50 0 0 0-50-50zm100 70a90 90 0 1 1 0 180 90 90 0 0 1 0-180zm0 50a40 40 0 1 0 0 80 40 40 0 0 0 0-80zm95-62a22 22 0 1 1 0 44 22 22 0 0 1 0-44z" transform="translate(60 60) scale(1.2)"/></symbol></svg>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand" aria-label="Tropigol inicio">
+      <svg viewBox="0 0 1080 1080" aria-hidden="true"><path class="tg-mark" d="M527,224.76v102.12h-49.5v568.89c-12.92-12.88-47.53-42.23-102.5-51.92V330.22l-37.41,37.6-131.65-10.94,137.53-138.23c5.94,4.18,17.28,6.9,31.53,8.57,29.1,3.42,70.32,2.5,102.5.89,28.23-1.41,49.5-3.35,49.5-3.35Z"/><path class="tg-accent" d="M732.18,419.35s.23-30.11,10.58-49.41l-40.94-41.41h-49.32v424.24c143.65-38.5,105.5-165.18,105.5-165.18l-77.12,16.94v-102.12l154.83-29.17,24.58,105.64s30.71,148.94-97.76,236.47c0,0-54.91,19.99-110.03,48.16-22.86,11.68-45.75,24.77-64.79,38.43l-37.71,28.1V225.5l102.5,4.04,34.03,1.34s29.18,3.77,50.59-12.23l136.94,136.94s-25.65,24-32.94,41.88l-108.94,21.88Z"/></svg>
+      <span class="wm"><span class="b1">Tropi</span><span class="b2">gol</span></span>
+    <nav class="nav-links">
+      <a href="#catalogo">Catalogo</a>
+      <a href="#tipos">Tipos</a>
+      <a href="#versus">Fan vs Player</a>
+      <a href="#equipo">Tu equipo</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="searchJump" aria-label="Buscar"><svg class="ico"><use href="#i-search"/></svg></button>
+      <button class="icon-btn cart-btn" id="openCart" aria-label="Ver pedido">
+        <svg class="ico"><use href="#i-carrito"/></svg>
+        <span class="cart-count" id="navCount">0</span>
+      </button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menú" aria-expanded="false"><svg class="ico"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#catalogo">Catalogo</a>
+    <a href="#tipos">Tipos</a>
+    <a href="#versus">Fan vs Player</a>
+    <a href="#equipo">Tu equipo</a>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 1080 1080" aria-hidden="true"><path class="tg-mark" d="M527,224.76v102.12h-49.5v568.89c-12.92-12.88-47.53-42.23-102.5-51.92V330.22l-37.41,37.6-131.65-10.94,137.53-138.23c5.94,4.18,17.28,6.9,31.53,8.57,29.1,3.42,70.32,2.5,102.5.89,28.23-1.41,49.5-3.35,49.5-3.35Z"/><path class="tg-accent" d="M732.18,419.35s.23-30.11,10.58-49.41l-40.94-41.41h-49.32v424.24c143.65-38.5,105.5-165.18,105.5-165.18l-77.12,16.94v-102.12l154.83-29.17,24.58,105.64s30.71,148.94-97.76,236.47c0,0-54.91,19.99-110.03,48.16-22.86,11.68-45.75,24.77-64.79,38.43l-37.71,28.1V225.5l102.5,4.04,34.03,1.34s29.18,3.77,50.59-12.23l136.94,136.94s-25.65,24-32.94,41.88l-108.94,21.88Z"/></svg>
+    </div>
+    <h1>Vive el juego,<br><em>viste</em> la pasion</h1>
+    <p>Camisetas Player, Fan, retro y uniformes completos de tus equipos y selecciones. Calidad de estadio, entrega a todo el pais.</p>
+    <div class="hero-cta">
+      <a href="#catalogo" class="btn btn-red">Ver catalogo <svg class="ico" style="width:15px;height:15px"><use href="#i-arrow"/></svg></a>
+      <a href="#versus" class="btn btn-ghost">Fan vs Player</a>
+    </div>
+  </div>
+  <div class="hero-sep" aria-hidden="true"></div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="mqTrack"></div>
+</div>
+
+<!-- ============ TRUST ============ -->
+<section class="trust">
+  <div class="wrap trust-grid">
+    <div class="trust-item"><svg class="ico"><use href="#i-envio"/></svg><div><b>Envíos a todo el país</b><small>Despacho en 24–48 h</small></div></div>
+    <div class="trust-item"><svg class="ico"><use href="#i-pago"/></svg><div><b>Pago seguro</b><small>Transacciones protegidas</small></div></div>
+    <div class="trust-item"><svg class="ico"><use href="#i-calidad"/></svg><div><b>Calidad premium</b><small>Telas y escudos de estadio</small></div></div>
+  </div>
+</section>
+
+<!-- ============ TIPOS ============ -->
+<section class="section tipos" id="tipos">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Tipos de camiseta</h2>
+      <p>Cuatro formas de llevar tus colores. Toca una y salta directo al catálogo filtrado.</p>
+    </div>
+    <div class="tipos-grid">
+      <div class="tipo-card" data-tipo="Player">
+        <svg class="ico"><use href="#i-player"/></svg>
+        <h3>Player</h3>
+        <p>La versión de jugador: corte atlético entallado, tela técnica ligera y escudos termosellados. Idéntica a la que se usa en cancha.</p>
+        <span class="go">Ver Player <svg class="ico" style="width:12px;height:12px"><use href="#i-arrow"/></svg></span>
+      </div>
+      <div class="tipo-card" data-tipo="Fan">
+        <svg class="ico"><use href="#i-fan"/></svg>
+        <h3>Fan</h3>
+        <p>La versión de hincha: corte regular cómodo y tela suave para el día a día. El precio más amigable sin perder los detalles.</p>
+        <span class="go">Ver Fan <svg class="ico" style="width:12px;height:12px"><use href="#i-arrow"/></svg></span>
+      </div>
+      <div class="tipo-card" data-tipo="Uniforme completo">
+        <svg class="ico"><use href="#i-uniforme"/></svg>
+        <h3>Uniforme</h3>
+        <p>Camiseta, pantaloneta y medias a juego. El equipo completo listo para saltar a jugar o entrenar con estilo.</p>
+        <span class="go">Ver Uniforme <svg class="ico" style="width:12px;height:12px"><use href="#i-arrow"/></svg></span>
+      </div>
+      <div class="tipo-card" data-tipo="Retro">
+        <svg class="ico"><use href="#i-retro"/></svg>
+        <h3>Retro</h3>
+        <p>Las clásicas que marcaron época. Diseños vintage de temporadas legendarias para revivir la historia del fútbol.</p>
+        <span class="go">Ver Retro <svg class="ico" style="width:12px;height:12px"><use href="#i-arrow"/></svg></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATALOG ============ -->
+<section class="section" id="catalogo" style="background:var(--white)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Catalogo</h2>
+      <p>Filtra por tipo, liga o equipo, o busca por nombre. Elige tu talla y agrega al pedido.</p>
+    </div>
+    <div class="catalog-layout">
+      <!-- FILTERS -->
+      <aside class="filters" id="filters">
+        <div class="filters-head">
+          <h3>Filtros</h3>
+          <button id="clearFilters">Limpiar</button>
+        </div>
+        <div class="f-search">
+          <svg class="ico"><use href="#i-search"/></svg>
+          <input type="text" id="searchInput" placeholder="Buscar equipo o liga…">
+        </div>
+        <div class="f-group">
+          <h4>Tipo</h4>
+          <div id="fTipo"></div>
+        </div>
+        <div class="f-group">
+          <h4>Liga</h4>
+          <div id="fLiga"></div>
+        </div>
+        <div class="f-group">
+          <h4>Precio</h4>
+          <div id="fPrecio"></div>
+        </div>
+      </aside>
+      <!-- PRODUCTS -->
+      <div class="catalog-main">
+        <div class="catalog-bar">
+          <button class="mobile-filter-btn" id="mobileFilterBtn"><svg class="ico" style="width:16px;height:16px"><use href="#i-filter"/></svg> Filtros</button>
+          <span class="count"><b id="resCount">0</b> productos</span>
+        </div>
+        <div class="product-grid" id="grid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAN VS PLAYER ============ -->
+<section class="section versus" id="versus">
+  <div class="wrap">
+    <h2>Fan <em>vs</em> Player</h2>
+    <p>¿Por qué una cuesta más que la otra? No es solo el precio: cambia el corte, la tela y los acabados. Míralo en detalle antes de elegir.</p>
+    <button class="btn btn-red" id="openVersus">Ver diferencias</button>
+  </div>
+</section>
+
+<!-- ============ TEAM CTA ============ -->
+<section class="section team" id="equipo">
+  <div class="wrap">
+    <div class="team-copy">
+      <h2>¿Uniformes para tu equipo entero?</h2>
+      <p>Arma el pedido de tu equipo, empresa o torneo con precios especiales por volumen, numeración y personalización con nombres. Cotiza directo con nosotros y te asesoramos.</p>
+      <a class="btn btn-wa" id="teamQuote"><svg class="ico"><use href="#i-whatsapp"/></svg> Cotizar por WhatsApp</a>
+    </div>
+    <div class="team-visual">
+      <svg class="ico" aria-hidden="true"><use href="#i-varios"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <svg viewBox="0 0 1080 1080" aria-hidden="true"><path class="tg-mark" d="M527,224.76v102.12h-49.5v568.89c-12.92-12.88-47.53-42.23-102.5-51.92V330.22l-37.41,37.6-131.65-10.94,137.53-138.23c5.94,4.18,17.28,6.9,31.53,8.57,29.1,3.42,70.32,2.5,102.5.89,28.23-1.41,49.5-3.35,49.5-3.35Z"/><path class="tg-accent" d="M732.18,419.35s.23-30.11,10.58-49.41l-40.94-41.41h-49.32v424.24c143.65-38.5,105.5-165.18,105.5-165.18l-77.12,16.94v-102.12l154.83-29.17,24.58,105.64s30.71,148.94-97.76,236.47c0,0-54.91,19.99-110.03,48.16-22.86,11.68-45.75,24.77-64.79,38.43l-37.71,28.1V225.5l102.5,4.04,34.03,1.34s29.18,3.77,50.59-12.23l136.94,136.94s-25.65,24-32.94,41.88l-108.94,21.88Z"/></svg>
+      <p>Tu tienda de camisetas y uniformes de fútbol. Player, Fan, retro y uniformes completos con calidad de estadio.</p>
+      <div class="foot-social" style="margin-top:18px">
+        <a href="#" aria-label="Instagram"><svg class="ico"><use href="#i-ig"/></svg></a>
+        <a href="#" aria-label="WhatsApp"><svg class="ico"><use href="#i-whatsapp"/></svg></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Catalogo</h5>
+      <a href="#catalogo" data-tipo="Player">Camisetas Player</a>
+      <a href="#catalogo" data-tipo="Fan">Camisetas Fan</a>
+      <a href="#catalogo" data-tipo="Retro">Camisetas Retro</a>
+      <a href="#catalogo" data-tipo="Uniforme completo">Uniformes completos</a>
+    </div>
+    <div class="foot-col">
+      <h5>Ayuda</h5>
+      <a href="#versus">Fan vs Player</a>
+      <a href="#">Guía de tallas</a>
+      <a href="#">Envíos y entregas</a>
+      <a href="#">Cambios y devoluciones</a>
+    </div>
+    <div class="foot-col">
+      <h5>Contacto</h5>
+      <a id="footWa">WhatsApp: 304 556 7994</a>
+      <a href="#equipo">Pedidos por mayor</a>
+      <a href="#">Preguntas frecuentes</a>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© <span id="year"></span> Tropigol. Todos los derechos reservados.</span>
+    <span>Hecho con pasión en Colombia ⚽</span>
+  </div>
+</footer>
+
+<!-- ============ FLOATING CART ============ -->
+<button class="cart-fab" id="cartFab">
+  <svg class="ico"><use href="#i-carrito"/></svg>
+  <span class="cf-label">Ver pedido</span>
+  <span class="cf-total" id="fabTotal">$0</span>
+  <span class="cf-badge" id="fabBadge">0</span>
+</button>
+
+<!-- toast -->
+<div class="toast" id="toast">
+  <span class="ok">✓</span>
+  <span id="toastMsg">Agregado al pedido</span>
+  <button id="toastView">Ver</button>
+</div>
+
+<!-- drawer -->
+<div class="drawer-bg" id="drawerBg"></div>
+<aside class="drawer" id="drawer" aria-label="Tu pedido">
+  <div class="drawer-head">
+    <h3><svg class="ico"><use href="#i-carrito"/></svg> Tu pedido</h3>
+    <button class="modal-close" id="closeDrawer" aria-label="Cerrar" style="position:static">✕</button>
+  </div>
+  <div class="drawer-items" id="drawerItems"></div>
+  <div class="drawer-foot" id="drawerFoot">
+    <div class="drawer-total"><span>Total</span><b id="drawerTotal">$0</b></div>
+    <button class="wa-order" id="waOrder"><svg class="ico"><use href="#i-whatsapp"/></svg> Ordenar por WhatsApp</button>
+    <p class="drawer-note">Confirmas tallas y pago directamente por chat.</p>
+  </div>
+</aside>
+
+<!-- ============ SIZE MODAL ============ -->
+<div class="modal-bg" id="sizeModal">
+  <div class="modal size-modal">
+    <button class="modal-close" id="closeSize" aria-label="Cerrar">✕</button>
+    <div class="sm-grid">
+      <div class="sm-photo protect" id="smPhoto" oncontextmenu="return false" ondragstart="return false"></div>
+      <div class="sm-body">
+        <span class="card-league" id="smLeague"></span>
+        <h3 id="smName"></h3>
+        <div class="sm-sub" id="smSub"></div>
+        <div class="sm-price" id="smPrice"></div>
+        <div class="sm-label">Elige tu talla</div>
+        <div class="sm-sizes" id="smSizes"></div>
+        <div class="sm-hint" id="smHint"></div>
+        <button class="sm-add" id="smAdd"><svg class="ico"><use href="#i-carrito"/></svg> Agregar al pedido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VERSUS MODAL ============ -->
+<div class="modal-bg" id="versusModal">
+  <div class="modal">
+    <button class="modal-close" id="closeVersus" aria-label="Cerrar">✕</button>
+    <div class="modal-head">
+      <h3>Fan vs Player</h3>
+    </div>
+    <div class="vs-cols">
+      <div class="vs-col player">
+        <div class="vs-photo player protect" oncontextmenu="return false" ondragstart="return false">
+          <span class="tag">Player</span>
+          <svg class="jersey ico"><use href="#i-player"/></svg>
+          <svg class="marker ico" style="top:18%;right:16%"><use href="#i-s1"/></svg>
+          <svg class="marker ico" style="top:46%;left:14%"><use href="#i-s2"/></svg>
+          <svg class="marker ico" style="bottom:16%;right:22%"><use href="#i-s3"/></svg>
+        </div>
+        <h4>Version Player</h4>
+        <div class="tier">La de jugador · gama alta</div>
+        <ul class="vs-diff">
+          <li><span class="n">1</span><span><b>Corte atlético.</b> Entallada al cuerpo, igual que la de cancha.</span></li>
+          <li><span class="n">2</span><span><b>Tela técnica.</b> Ligera, con canales de ventilación que secan rápido.</span></li>
+          <li><span class="n">3</span><span><b>Escudos termosellados.</b> Logos y parches soldados en relieve, sin costuras.</span></li>
+        </ul>
+      </div>
+      <div class="vs-col fan">
+        <div class="vs-photo fan protect" oncontextmenu="return false" ondragstart="return false">
+          <span class="tag">Fan</span>
+          <svg class="jersey ico"><use href="#i-fan"/></svg>
+          <svg class="marker ico" style="top:18%;right:16%"><use href="#i-s1"/></svg>
+          <svg class="marker ico" style="top:46%;left:14%"><use href="#i-s2"/></svg>
+          <svg class="marker ico" style="bottom:16%;right:22%"><use href="#i-s3"/></svg>
+        </div>
+        <h4>Version Fan</h4>
+        <div class="tier">La de hincha · uso diario</div>
+        <ul class="vs-diff">
+          <li><span class="n">1</span><span><b>Corte regular.</b> Más holgada y cómoda para el día a día.</span></li>
+          <li><span class="n">2</span><span><b>Tela suave.</b> Algodón técnico agradable, pensado para vestir.</span></li>
+          <li><span class="n">3</span><span><b>Escudos bordados o estampados.</b> Igual de vistosos, a un precio más amable.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
