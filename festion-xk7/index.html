@@ -203,6 +203,25 @@ label.lbl{display:block;font-size:.78rem;font-weight:600;color:var(--ink);margin
         <div class="field"><textarea id="marqueeTxt" style="min-height:120px"></textarea></div>
       </div>
 
+      <div class="card-box">
+        <h3>Comparación Fan vs Player</h3>
+        <p class="h">Las dos fotos que se ven al abrir "Ver diferencias". Sube una de la camiseta Player y una de la Fan.</p>
+        <div class="grid2">
+          <div>
+            <label class="lbl">Foto Player</label>
+            <img class="prev-img hide" id="vsPlayerPrev" style="max-height:180px">
+            <div class="uploader" id="vsPlayerUp">Subir foto Player</div>
+            <input type="file" id="vsPlayerFile" accept="image/*" class="hide">
+          </div>
+          <div>
+            <label class="lbl">Foto Fan</label>
+            <img class="prev-img hide" id="vsFanPrev" style="max-height:180px">
+            <div class="uploader" id="vsFanUp">Subir foto Fan</div>
+            <input type="file" id="vsFanFile" accept="image/*" class="hide">
+          </div>
+        </div>
+      </div>
+
       <button class="btn red" id="saveAppearance">Guardar cambios</button>
       <span id="appMsg" style="margin-left:12px"></span>
     </section>
@@ -433,6 +452,8 @@ async function loadAppearance(){
   $("heroTit").value=cfg.hero_titulo||"";
   $("heroSub").value=cfg.hero_sub||"";
   if(cfg.equipo_img){ $("equipoPrev").src=cfg.equipo_img; $("equipoPrev").classList.remove("hide"); }
+  if(cfg.vs_player_img){ $("vsPlayerPrev").src=cfg.vs_player_img; $("vsPlayerPrev").classList.remove("hide"); }
+  if(cfg.vs_fan_img){ $("vsFanPrev").src=cfg.vs_fan_img; $("vsFanPrev").classList.remove("hide"); }
   $("marqueeTxt").value=cfg.marquee||"";
 }
 $("heroUp").onclick=()=>$("heroFile").click();
@@ -451,12 +472,26 @@ $("equipoFile").onchange=async e=>{
   catch(err){ toast("Error: "+err.message); }
   $("equipoUp").textContent="Subir imagen de esa sección (clic o arrastra)"; e.target.value="";
 };
+function vsUploader(btnId,fileId,prevId,key){
+  $(btnId).onclick=()=>$(fileId).click();
+  $(fileId).onchange=async e=>{
+    const f=e.target.files[0]; if(!f)return;
+    const t=$(btnId).textContent; $(btnId).textContent="Subiendo…";
+    try{ const url=await uploadImage(f,"comparacion"); cfg[key]=url; $(prevId).src=url; $(prevId).classList.remove("hide"); toast("Foto lista. No olvides Guardar."); }
+    catch(err){ toast("Error: "+err.message); }
+    $(btnId).textContent=t; e.target.value="";
+  };
+}
+vsUploader("vsPlayerUp","vsPlayerFile","vsPlayerPrev","vs_player_img");
+vsUploader("vsFanUp","vsFanFile","vsFanPrev","vs_fan_img");
 $("saveAppearance").onclick=async ()=>{
   const rows=[
     {clave:"hero_img",valor:cfg.hero_img||""},
     {clave:"hero_titulo",valor:$("heroTit").value},
     {clave:"hero_sub",valor:$("heroSub").value},
     {clave:"equipo_img",valor:cfg.equipo_img||""},
+    {clave:"vs_player_img",valor:cfg.vs_player_img||""},
+    {clave:"vs_fan_img",valor:cfg.vs_fan_img||""},
     {clave:"marquee",valor:$("marqueeTxt").value}
   ].filter(r=>r.valor!=="" || ["hero_titulo","hero_sub","marquee"].includes(r.clave));
   const btn=$("saveAppearance"); btn.innerHTML='<span class="spinner"></span>'; btn.disabled=true;
