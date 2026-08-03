@@ -1,8 +1,46 @@
 const WA_NUMBER = "573045567944";
 const money = n => "$" + n.toLocaleString("es-CO");
 
-/* ---------- placeholder catalog ---------- */
-const PRODUCTS = [
+/* ---------- Supabase (llave pública, segura de exponer) ---------- */
+const SB_URL = "https://tvpvghaalmpybmbwjtlg.supabase.co";
+const SB_KEY = "sb_publishable_wy2GW0m_cw02l6h2AF8X4A_8bpO7vuR";
+const sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+const STD_SIZES = ["S","M","L","XL","XXL"];
+
+async function loadData(){
+  if(!sb) return;                         // sin librería -> usa los datos de respaldo
+  try{
+    const { data, error } = await sb.from('productos').select('*')
+      .eq('disponible',true).order('orden',{ascending:true}).order('id',{ascending:true});
+    if(error) throw error;
+    if(data && data.length){
+      PRODUCTS = data.map(r=>({
+        id:r.id, name:r.nombre, sub:r.sub||"", league:r.liga||"", type:r.tipo||"Fan",
+        price:r.precio||0, promo:r.promo||null, dorsal:r.dorsal||"",
+        sizes:Array.isArray(r.tallas)?r.tallas:[], fotos:Array.isArray(r.fotos)?r.fotos:[],
+        c1:r.color1||"#7a1220", c2:r.color2||"#111111"
+      }));
+    }
+  }catch(e){ console.warn("Productos: uso respaldo local.", e.message); }
+  try{
+    const { data } = await sb.from('configuracion').select('*');
+    if(data && data.length){ const cfg={}; data.forEach(r=>cfg[r.clave]=r.valor); applyConfig(cfg); }
+  }catch(e){ /* usa valores por defecto del HTML */ }
+}
+
+function applyConfig(cfg){
+  if(cfg.hero_img)    document.querySelector('.hero').style.setProperty('--hero-img',`url('${cfg.hero_img}')`);
+  if(cfg.hero_titulo){ const h=document.querySelector('.hero h1'); if(h) h.innerHTML=cfg.hero_titulo; }
+  if(cfg.hero_sub){    const p=document.querySelector('.hero p'); if(p) p.textContent=cfg.hero_sub; }
+  if(cfg.equipo_img){
+    const v=document.querySelector('.team-visual');
+    if(v) v.innerHTML=`<img src="${cfg.equipo_img}" alt="Uniformes de equipo" style="width:min(360px,90%);border-radius:14px" draggable="false">`;
+  }
+  if(cfg.marquee) mqMsgs = cfg.marquee.split('\n').map(s=>s.trim()).filter(Boolean);
+}
+
+/* ---------- placeholder catalog (respaldo si la base no responde) ---------- */
+let PRODUCTS = [
   {id:1, name:"Real Madrid", sub:"Local 24/25", league:"LaLiga", type:"Player", price:120000, promo:99000, dorsal:"7", c1:"#2a3550", c2:"#0f1422", sizes:["S","M","L","XL"], out:["XXL"]},
   {id:2, name:"Barcelona", sub:"Local 24/25", league:"LaLiga", type:"Fan", price:75000, promo:null, dorsal:"10", c1:"#1b2a6b", c2:"#7a1230", sizes:["S","M","L","XL","XXL"], out:[]},
   {id:3, name:"Man City", sub:"Local 24/25", league:"Premier League", type:"Player", price:120000, promo:null, dorsal:"9", c1:"#3a7fb0", c2:"#173a4f", sizes:["M","L","XL"], out:["S","XXL"]},
@@ -22,22 +60,22 @@ const jerseyIcon = t => t==="Player"?"i-player":t==="Uniforme completo"?"i-unifo
 const patchIcon = t => t==="Player"?"i-p-player":t==="Retro"?"i-p-retro":t==="Fan"?"i-p-fan":"i-p-fan";
 
 /* ---------- marquee ---------- */
-const mqMsgs = ["Envios a todo el pais","Version Player y Fan","Camisetas Retro disponibles","Uniformes para tu equipo","Calidad de estadio","Personaliza con tu nombre"];
-(function(){
+let mqMsgs = ["Envios a todo el pais","Version Player y Fan","Camisetas Retro disponibles","Uniformes para tu equipo","Calidad de estadio","Personaliza con tu nombre"];
+function renderMarquee(){
   const track = document.getElementById("mqTrack");
   const build = () => mqMsgs.map(m=>`<span>${m}<i></i></span>`).join("");
   track.innerHTML = build()+build();
-})();
+}
 
 /* ---------- filters state ---------- */
 const state = { search:"", tipos:new Set(), ligas:new Set(), precio:new Set() };
 const TIPOS = ["Player","Fan","Uniforme completo","Retro"];
-const LIGAS = [...new Set(PRODUCTS.map(p=>p.league))];
 const PRECIOS = [["0-79.999",0,79999],["80.000-119.999",80000,119999],["120.000+",120000,1e9]];
 
 function countBy(fn){ return v => PRODUCTS.filter(p=>fn(p,v)).length; }
 
 function renderFilterOptions(){
+  const LIGAS=[...new Set(PRODUCTS.map(p=>p.league))].filter(Boolean);
   const tipoBox=document.getElementById("fTipo");
   tipoBox.innerHTML=TIPOS.map(t=>`<label class="f-opt"><input type="checkbox" data-g="tipos" value="${t}"><span>${t}</span><span class="n">${PRODUCTS.filter(p=>p.type===t).length}</span></label>`).join("");
   const ligaBox=document.getElementById("fLiga");
@@ -78,27 +116,32 @@ function renderGrid(){
     return;
   }
   grid.innerHTML=list.map(p=>{
-    const promoTag = p.promo?`<div class="card-promo">-${Math.round((1-p.promo/p.price)*100)}%</div>`:"";
     const priceHtml = p.promo
       ? `<span class="now">${money(p.promo)}</span><span class="was">${money(p.price)}</span>`
       : `<span class="now">${money(p.price)}</span>`;
     return `<article class="card">
       <div class="card-img protect" style="background:linear-gradient(150deg,${p.c1},${p.c2})" oncontextmenu="return false" ondragstart="return false">
-        <div class="card-dorsal">${p.dorsal}</div>
-        <svg class="jersey ico"><use href="#${jerseyIcon(p.type)}"/></svg>
-        <img class="card-patch" src="${PATCH_URI[p.type]||PATCH_URI['Fan']}" alt="" draggable="false">
-        ${promoTag}
+        ${cardImgInner(p)}
       </div>
       <div class="card-body">
         <span class="card-league">${p.league}</span>
         <h3 class="card-name">${p.name}</h3>
-        <span class="card-sub">${p.sub} · ${p.type}</span>
+        <span class="card-sub">${p.sub}${p.type?` · ${p.type}`:""}</span>
         <div class="card-price">${priceHtml}</div>
         <button class="add-btn" data-add="${p.id}"><svg class="ico"><use href="#i-carrito"/></svg> Agregar</button>
       </div>
     </article>`;
   }).join("");
   bindCards();
+}
+
+function cardImgInner(p){
+  const patch = `<img class="card-patch" src="${PATCH_URI[p.type]||PATCH_URI['Fan']}" alt="" draggable="false">`;
+  const promoTag = p.promo?`<div class="card-promo">-${Math.round((1-p.promo/p.price)*100)}%</div>`:"";
+  if(p.fotos && p.fotos.length){
+    return `<img class="card-photo protect" src="${p.fotos[0]}" alt="${p.name}" draggable="false" oncontextmenu="return false" ondragstart="return false">${patch}${promoTag}`;
+  }
+  return `<div class="card-dorsal">${p.dorsal||""}</div><svg class="jersey ico"><use href="#${jerseyIcon(p.type)}"/></svg>${patch}${promoTag}`;
 }
 
 /* patch data-uris (injected) */
@@ -194,7 +237,9 @@ function openSizeModal(id){
   smState={id,size:null};
   const photo=document.getElementById("smPhoto");
   photo.style.background=`linear-gradient(150deg,${p.c1},${p.c2})`;
-  photo.innerHTML=`<div class="card-dorsal">${p.dorsal}</div><svg class="jersey ico"><use href="#${jerseyIcon(p.type)}"/></svg><img class="card-patch" src="${PATCH_URI[p.type]||PATCH_URI['Fan']}" alt="" draggable="false">`;
+  photo.innerHTML = (p.fotos && p.fotos.length)
+    ? `<img class="sm-photo-img protect" src="${p.fotos[0]}" alt="${p.name}" draggable="false" oncontextmenu="return false" ondragstart="return false">`
+    : `<div class="card-dorsal">${p.dorsal||""}</div><svg class="jersey ico"><use href="#${jerseyIcon(p.type)}"/></svg><img class="card-patch" src="${PATCH_URI[p.type]||PATCH_URI['Fan']}" alt="" draggable="false">`;
   document.getElementById("smLeague").textContent=p.league;
   document.getElementById("smName").textContent=p.name;
   document.getElementById("smSub").textContent=`${p.sub} · ${p.type}`;
@@ -276,6 +321,10 @@ document.addEventListener("contextmenu",e=>{if(e.target.closest(".protect"))e.pr
 document.getElementById("year").textContent=new Date().getFullYear();
 
 /* init */
-renderFilterOptions();
-renderGrid();
-updateCart();
+(async function init(){
+  await loadData();
+  renderMarquee();
+  renderFilterOptions();
+  renderGrid();
+  updateCart();
+})();
