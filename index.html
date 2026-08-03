@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tropigol · Camisetas de fútbol</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDEwODAgMTA4MCI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS4wIEJ1aWxkIDE4NikgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjYTEwYTFkOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBkPSJNNTI3LDIyNC43NnYxMDIuMTJoLTQ5LjV2NTY4Ljg5Yy0xMi45Mi0xMi44OC00Ny41My00Mi4yMy0xMDIuNS01MS45MlYzMzAuMjJsLTM3LjQxLDM3LjYtMTMxLjY1LTEwLjk0LDEzNy41My0xMzguMjNjNS45NCw0LjE4LDE3LjI4LDYuOSwzMS41Myw4LjU3LDI5LjEsMy40Miw3MC4zMiwyLjUsMTAyLjUuODksMjguMjMtMS40MSw0OS41LTMuMzUsNDkuNS0zLjM1WiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik03MzIuMTgsNDE5LjM1cy4yMy0zMC4xMSwxMC41OC00OS40MWwtNDAuOTQtNDEuNDFoLTQ5LjMydjQyNC4yNGMxNDMuNjUtMzguNSwxMDUuNS0xNjUuMTgsMTA1LjUtMTY1LjE4bC03Ny4xMiwxNi45NHYtMTAyLjEybDE1NC44My0yOS4xNywyNC41OCwxMDUuNjRzMzAuNzEsMTQ4Ljk0LTk3Ljc2LDIzNi40N2MwLDAtNTQuOTEsMTkuOTktMTEwLjAzLDQ4LjE2LTIyLjg2LDExLjY4LTQ1Ljc1LDI0Ljc3LTY0Ljc5LDM4LjQzbC0zNy43MSwyOC4xVjIyNS41bDEwMi41LDQuMDQsMzQuMDMsMS4zNHMyOS4xOCwzLjc3LDUwLjU5LTEyLjIzbDEzNi45NCwxMzYuOTRzLTI1LjY1LDI0LTMyLjk0LDQxLjg4bC0xMDguOTQsMjEuODhaIi8+Cjwvc3ZnPg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
@@ -50,7 +51,6 @@
     <nav class="nav-links">
       <a href="#catalogo">Catalogo</a>
       <a href="#tipos">Tipos</a>
-      <a href="#versus">Fan vs Player</a>
       <a href="#equipo">Tu equipo</a>
     </nav>
     <div class="nav-actions">
@@ -65,7 +65,6 @@
   <nav class="mobile-nav" id="mobileNav">
     <a href="#catalogo">Catalogo</a>
     <a href="#tipos">Tipos</a>
-    <a href="#versus">Fan vs Player</a>
     <a href="#equipo">Tu equipo</a>
   </nav>
 </header>
@@ -80,7 +79,6 @@
     <p>Camisetas Player, Fan, retro y uniformes completos de tus equipos y selecciones. Calidad de estadio, entrega a todo el pais.</p>
     <div class="hero-cta">
       <a href="#catalogo" class="btn btn-red">Ver catalogo <svg class="ico" style="width:15px;height:15px"><use href="#i-arrow"/></svg></a>
-      <a href="#versus" class="btn btn-ghost">Fan vs Player</a>
     </div>
   </div>
   <div class="hero-sep" aria-hidden="true"></div>
@@ -133,6 +131,10 @@
         <span class="go">Ver Retro <svg class="ico" style="width:12px;height:12px"><use href="#i-arrow"/></svg></span>
       </div>
     </div>
+    <div class="tipos-compare">
+      <p>¿No sabes cuál elegir entre Fan y Player? Mira las diferencias.</p>
+      <button class="btn btn-red" id="openVersus">Ver diferencias</button>
+    </div>
   </div>
 </section>
 
@@ -179,15 +181,6 @@
   </div>
 </section>
 
-<!-- ============ FAN VS PLAYER ============ -->
-<section class="section versus" id="versus">
-  <div class="wrap">
-    <h2>Fan <em>vs</em> Player</h2>
-    <p>¿Por qué una cuesta más que la otra? No es solo el precio: cambia el corte, la tela y los acabados. Míralo en detalle antes de elegir.</p>
-    <button class="btn btn-red" id="openVersus">Ver diferencias</button>
-  </div>
-</section>
-
 <!-- ============ TEAM CTA ============ -->
 <section class="section team" id="equipo">
   <div class="wrap">
@@ -222,7 +215,7 @@
     </div>
     <div class="foot-col">
       <h5>Ayuda</h5>
-      <a href="#versus">Fan vs Player</a>
+      <a href="#tipos">Fan vs Player</a>
       <a href="#">Guía de tallas</a>
       <a href="#">Envíos y entregas</a>
       <a href="#">Cambios y devoluciones</a>
@@ -302,9 +295,6 @@
         <div class="vs-photo player protect" oncontextmenu="return false" ondragstart="return false">
           <span class="tag">Player</span>
           <svg class="jersey ico"><use href="#i-player"/></svg>
-          <svg class="marker ico" style="top:18%;right:16%"><use href="#i-s1"/></svg>
-          <svg class="marker ico" style="top:46%;left:14%"><use href="#i-s2"/></svg>
-          <svg class="marker ico" style="bottom:16%;right:22%"><use href="#i-s3"/></svg>
         </div>
         <h4>Version Player</h4>
         <div class="tier">La de jugador · gama alta</div>
@@ -318,16 +308,13 @@
         <div class="vs-photo fan protect" oncontextmenu="return false" ondragstart="return false">
           <span class="tag">Fan</span>
           <svg class="jersey ico"><use href="#i-fan"/></svg>
-          <svg class="marker ico" style="top:18%;right:16%"><use href="#i-s1"/></svg>
-          <svg class="marker ico" style="top:46%;left:14%"><use href="#i-s2"/></svg>
-          <svg class="marker ico" style="bottom:16%;right:22%"><use href="#i-s3"/></svg>
         </div>
         <h4>Version Fan</h4>
         <div class="tier">La de hincha · uso diario</div>
         <ul class="vs-diff">
           <li><span class="n">1</span><span><b>Corte regular.</b> Más holgada y cómoda para el día a día.</span></li>
           <li><span class="n">2</span><span><b>Tela suave.</b> Algodón técnico agradable, pensado para vestir.</span></li>
-          <li><span class="n">3</span><span><b>Escudos bordados o estampados.</b> Igual de vistosos, a un precio más amable.</span></li>
+          <li><span class="n">3</span><span><b>Escudos bordados.</b> Igual de vistosos, a un precio más amable.</span></li>
         </ul>
       </div>
     </div>
