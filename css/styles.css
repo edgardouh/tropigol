@@ -88,7 +88,7 @@ header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.86);backdro
 .hero-inner{padding:40px 18px 90px;max-width:860px}
 .hero-logo{width:clamp(96px,15vw,150px);margin:0 auto 22px;color:#fff}
 .hero-logo .tg-accent{fill:var(--red)}
-.hero h1{font-family:'Victory';text-transform:uppercase;font-size:clamp(2.5rem,7vw,5.4rem);line-height:1.20;letter-spacing:.015em;text-shadow:0 4px 30px rgba(0,0,0,.4)}
+.hero h1{font-family:'Victory';text-transform:uppercase;font-size:clamp(2.5rem,7vw,5.4rem);line-height:1.18;letter-spacing:.015em;text-shadow:0 4px 30px rgba(0,0,0,.4)}
 .hero h1 em{font-style:normal;color:var(--red)}
 .hero p{margin:20px auto 0;max-width:540px;font-size:1.06rem;color:rgba(255,255,255,.82);font-weight:300}
 .hero-cta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
@@ -253,7 +253,7 @@ header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.86);backdro
 .team::after{content:"";position:absolute;inset:0;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="90" height="30" viewBox="0 0 90 30"><path d="M0 15 Q22.5 0 45 15 T90 15" fill="none" stroke="%23ffffff" stroke-width="2"/><path d="M0 30 Q22.5 15 45 30 T90 30" fill="none" stroke="%23ffffff" stroke-width="2"/><path d="M0 0 Q22.5 -15 45 0 T90 0" fill="none" stroke="%23ffffff" stroke-width="2"/></svg>');background-size:170px auto;opacity:.16;pointer-events:none}
 .team .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
 .team-copy .eyebrow{color:rgba(255,255,255,.7)}
-.team-copy h2{font-family:'Victory';text-transform:uppercase;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.20;margin:10px 0 14px}
+.team-copy h2{font-family:'Victory';text-transform:uppercase;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.08;margin:10px 0 14px}
 .team-copy p{color:rgba(255,255,255,.9);max-width:440px;font-weight:300;margin-bottom:26px}
 .team-visual{display:grid;place-items:center}
 .team-visual .ico{width:min(320px,80%);color:#fff;filter:drop-shadow(0 20px 30px rgba(0,0,0,.25))}
@@ -370,3 +370,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.66)}
   *{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto}
   .marquee-track{animation:none}
 }
+
+/* fotos reales de producto (Supabase) */
+.card-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.sm-photo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
