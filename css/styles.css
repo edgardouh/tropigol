@@ -378,5 +378,9 @@ footer{background:var(--ink);color:rgba(255,255,255,.66)}
 /* botón comparar bajo los tipos */
 .tipos-compare{margin-top:36px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
 .tipos-compare p{color:var(--text);font-size:1rem;max-width:440px}
-/* tope de altura de la imagen de equipos (evita que estire la sección) */
-.team-visual img{max-height:clamp(320px,52vh,540px);width:auto;max-width:100%;object-fit:contain}
+/* imagen de equipos: anclada abajo (jugador parado), sin recorte */
+.team-visual{display:flex;align-items:flex-end;justify-content:center;align-self:stretch}
+.team-visual img{max-width:100%}
+/* fotos reales en la comparación Fan vs Player */
+.vs-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.vs-photo .tag{z-index:2}
