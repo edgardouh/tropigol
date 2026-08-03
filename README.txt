@@ -3,7 +3,7 @@ TROPIGOL — Tienda web (Paso 1: página pública)
 
 CÓMO VERLA
 ----------
-Descomprime esta carpeta y abre "index.html" con doble clic (Chrome, Edge, etc.).
+Descomprime esta carpeta y abre "index.html" con doble clic (Chrome)
 Todo funciona en local: fuente, íconos, carrito y filtros. No necesitas servidor.
 
 ESTRUCTURA
