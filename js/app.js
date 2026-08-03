@@ -34,7 +34,7 @@ function applyConfig(cfg){
   if(cfg.hero_sub){    const p=document.querySelector('.hero p'); if(p) p.textContent=cfg.hero_sub; }
   if(cfg.equipo_img){
     const v=document.querySelector('.team-visual');
-    if(v) v.innerHTML=`<img src="${cfg.equipo_img}" alt="Uniformes de equipo" style="width:min(360px,90%);border-radius:14px" draggable="false">`;
+    if(v) v.innerHTML=`<img src="${cfg.equipo_img}" alt="Uniformes de equipo" style="max-height:clamp(320px,52vh,540px);width:auto;max-width:100%;border-radius:14px;object-fit:contain" draggable="false">`;
   }
   if(cfg.marquee) mqMsgs = cfg.marquee.split('\n').map(s=>s.trim()).filter(Boolean);
 }
@@ -160,7 +160,7 @@ function addToCart(id, size){
   const key=id+"-"+size;
   const ex=cart.find(x=>x.key===key);
   if(ex) ex.qty++;
-  else cart.push({key,id,name:p.name,sub:p.sub,type:p.type,size,price:priceOf(p),c1:p.c1,c2:p.c2,qty:1});
+  else cart.push({key,id,name:p.name,sub:p.sub,type:p.type,size,price:priceOf(p),c1:p.c1,c2:p.c2,foto:(p.fotos&&p.fotos.length)?p.fotos[0]:null,qty:1});
   updateCart();
   showToast(p.name+" agregada");
 }
@@ -182,7 +182,7 @@ function updateCart(){
   }
   foot.style.display="block";
   box.innerHTML=cart.map(c=>`<div class="d-item">
-    <div class="d-thumb" style="background:linear-gradient(150deg,${c.c1},${c.c2})"><svg class="jersey ico"><use href="#${jerseyIcon(c.type)}"/></svg></div>
+    <div class="d-thumb" style="background:linear-gradient(150deg,${c.c1},${c.c2})">${c.foto?`<img src="${c.foto}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover" draggable="false">`:`<svg class="jersey ico"><use href="#${jerseyIcon(c.type)}"/></svg>`}</div>
     <div class="d-info">
       <div class="nm">${c.name}</div>
       <div class="meta">${c.type}${c.size?` · Talla <b>${c.size}</b>`:""}</div>
