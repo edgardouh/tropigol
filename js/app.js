@@ -34,9 +34,18 @@ function applyConfig(cfg){
   if(cfg.hero_sub){    const p=document.querySelector('.hero p'); if(p) p.textContent=cfg.hero_sub; }
   if(cfg.equipo_img){
     const v=document.querySelector('.team-visual');
-    if(v) v.innerHTML=`<img src="${cfg.equipo_img}" alt="Uniformes de equipo" style="max-height:clamp(320px,52vh,540px);width:auto;max-width:100%;border-radius:14px;object-fit:contain" draggable="false">`;
+    if(v) v.innerHTML=`<img src="${cfg.equipo_img}" alt="Uniformes de equipo" style="height:clamp(360px,62vh,640px);width:auto;max-width:100%;object-fit:contain;object-position:bottom;display:block" draggable="false">`;
   }
+  if(cfg.vs_player_img) setVsPhoto('.vs-photo.player', cfg.vs_player_img);
+  if(cfg.vs_fan_img) setVsPhoto('.vs-photo.fan', cfg.vs_fan_img);
   if(cfg.marquee) mqMsgs = cfg.marquee.split('\n').map(s=>s.trim()).filter(Boolean);
+}
+function setVsPhoto(sel,url){
+  const el=document.querySelector(sel); if(!el) return;
+  const j=el.querySelector('.jersey'); if(j) j.remove();
+  let img=el.querySelector('img.vs-img');
+  if(!img){ img=document.createElement('img'); img.className='vs-img protect'; img.setAttribute('draggable','false'); img.oncontextmenu=()=>false; el.appendChild(img); }
+  img.src=url;
 }
 
 /* ---------- placeholder catalog (respaldo si la base no responde) ---------- */
