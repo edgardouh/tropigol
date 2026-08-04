@@ -6,6 +6,7 @@ const SB_URL = "https://tvpvghaalmpybmbwjtlg.supabase.co";
 const SB_KEY = "sb_publishable_wy2GW0m_cw02l6h2AF8X4A_8bpO7vuR";
 const sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 const STD_SIZES = ["S","M","L","XL","XXL"];
+let PARCHES = {};   // catálogo id -> {nombre, foto}
 
 async function loadData(){
   if(!sb) return;                         // sin librería -> usa los datos de respaldo
@@ -18,10 +19,17 @@ async function loadData(){
         id:r.id, name:r.nombre, sub:r.sub||"", league:r.liga||"", type:r.tipo||"Fan",
         price:r.precio||0, promo:r.promo||null, dorsal:r.dorsal||"",
         sizes:Array.isArray(r.tallas)?r.tallas:[], fotos:Array.isArray(r.fotos)?r.fotos:[],
-        c1:r.color1||"#7a1220", c2:r.color2||"#111111"
+        c1:r.color1||"#7a1220", c2:r.color2||"#111111",
+        estampado:!!r.permite_estampado, precioEst:r.precio_estampado||0,
+        parche:!!r.permite_parche, precioParche:r.precio_parche||0,
+        parchesIds:Array.isArray(r.parches_ids)?r.parches_ids.map(Number):[]
       }));
     }
   }catch(e){ console.warn("Productos: uso respaldo local.", e.message); }
+  try{
+    const { data:pd } = await sb.from('parches').select('*');
+    if(pd) pd.forEach(x=>{ PARCHES[x.id]={nombre:x.nombre, foto:x.foto}; });
+  }catch(e){ /* sin parches */ }
   try{
     const { data } = await sb.from('configuracion').select('*');
     if(data && data.length){ const cfg={}; data.forEach(r=>cfg[r.clave]=r.valor); applyConfig(cfg); }
@@ -164,12 +172,17 @@ function bindCards(){
 
 /* ---------- cart ---------- */
 let cart=[];
-function addToCart(id, size){
+function addToCart(id, size, opts){
+  opts=opts||{};
   const p=PRODUCTS.find(x=>x.id===id);
-  const key=id+"-"+size;
+  const est=opts.estampado||null, par=opts.parche||null;
+  let extra=0;
+  if(est) extra+=p.precioEst||0;
+  if(par) extra+=p.precioParche||0;
+  const key=[id,size,est?`e:${est.nombre}#${est.numero}`:"",par?`p:${par.id}`:""].join("|");
   const ex=cart.find(x=>x.key===key);
   if(ex) ex.qty++;
-  else cart.push({key,id,name:p.name,sub:p.sub,type:p.type,size,price:priceOf(p),c1:p.c1,c2:p.c2,foto:(p.fotos&&p.fotos.length)?p.fotos[0]:null,qty:1});
+  else cart.push({key,id,name:p.name,sub:p.sub,type:p.type,size,price:priceOf(p)+extra,extra,estampado:est,parche:par,c1:p.c1,c2:p.c2,foto:(p.fotos&&p.fotos.length)?p.fotos[0]:null,qty:1});
   updateCart();
   showToast(p.name+" agregada");
 }
@@ -194,7 +207,7 @@ function updateCart(){
     <div class="d-thumb" style="background:linear-gradient(150deg,${c.c1},${c.c2})">${c.foto?`<img src="${c.foto}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover" draggable="false">`:`<svg class="jersey ico"><use href="#${jerseyIcon(c.type)}"/></svg>`}</div>
     <div class="d-info">
       <div class="nm">${c.name}</div>
-      <div class="meta">${c.type}${c.size?` · Talla <b>${c.size}</b>`:""}</div>
+      <div class="meta">${c.type}${c.size?` · Talla <b>${c.size}</b>`:""}${c.estampado?`<br>Estampado: <b>${(c.estampado.nombre||"").toUpperCase()}${c.estampado.numero?` ${c.estampado.numero}`:""}</b>`:""}${c.parche?`<br>Parche: <b>${c.parche.nombre}</b>`:""}</div>
       <div class="qty">
         <button data-dec="${c.key}" aria-label="Quitar uno">−</button>
         <span>${c.qty}</span>
@@ -213,7 +226,12 @@ function updateCart(){
 function waOrderLink(){
   if(!cart.length) return "https://wa.me/"+WA_NUMBER;
   let msg="¡Hola Tropigol! Quiero hacer este pedido:%0A%0A";
-  cart.forEach(c=>{ msg+=`• ${c.qty}x ${c.name} (${c.type}${c.size?`, talla ${c.size}`:""}) — ${money(c.qty*c.price)}%0A`; });
+  cart.forEach(c=>{
+    let extras="";
+    if(c.estampado) extras+=`%0A   Estampado: ${(c.estampado.nombre||"").toUpperCase()}${c.estampado.numero?` ${c.estampado.numero}`:""}`;
+    if(c.parche) extras+=`%0A   Parche: ${c.parche.nombre}`;
+    msg+=`• ${c.qty}x ${c.name} (${c.type}${c.size?`, talla ${c.size}`:""})${extras} — ${money(c.qty*c.price)}%0A`;
+  });
   const total=cart.reduce((a,c)=>a+c.qty*c.price,0);
   msg+=`%0A*Total: ${money(total)}*%0A%0A¿Me confirmas disponibilidad y forma de pago?`;
   return "https://wa.me/"+WA_NUMBER+"?text="+msg;
@@ -243,7 +261,7 @@ document.getElementById("waOrder").onclick=()=>window.open(waOrderLink(),"_blank
 let smState={id:null,size:null};
 function openSizeModal(id){
   const p=PRODUCTS.find(x=>x.id===id);
-  smState={id,size:null};
+  smState={id,size:null,product:p,est:false,par:false,parcheId:null};
   const photo=document.getElementById("smPhoto");
   photo.style.background=`linear-gradient(150deg,${p.c1},${p.c2})`;
   photo.innerHTML = (p.fotos && p.fotos.length)
@@ -267,14 +285,74 @@ function openSizeModal(id){
       document.getElementById("smHint").textContent="";
     };
   });
+
+  // Estampado
+  const estBlock=document.getElementById("smEstBlock");
+  if(p.estampado){
+    estBlock.classList.remove("hide");
+    document.getElementById("smEstPrice").textContent="+"+money(p.precioEst);
+    document.getElementById("smEstampado").checked=false;
+    document.getElementById("smEstFields").classList.add("hide");
+    document.getElementById("smEstNombre").value=""; document.getElementById("smEstNumero").value="";
+    document.getElementById("smEstampado").onchange=e=>{
+      smState.est=e.target.checked;
+      document.getElementById("smEstFields").classList.toggle("hide",!e.target.checked);
+      smTotalUpdate();
+    };
+  } else estBlock.classList.add("hide");
+
+  // Parche (solo si permite y hay parches válidos asignados)
+  const parBlock=document.getElementById("smParBlock");
+  const ids=(p.parche && p.parchesIds)?p.parchesIds.filter(x=>PARCHES[x]):[];
+  if(p.parche && ids.length){
+    parBlock.classList.remove("hide");
+    document.getElementById("smParPrice").textContent="+"+money(p.precioParche);
+    document.getElementById("smParche").checked=false;
+    document.getElementById("smParFields").classList.add("hide");
+    document.getElementById("smParList").innerHTML=ids.map(x=>`<div class="sp" data-id="${x}"><img src="${PARCHES[x].foto}" alt=""><span>${PARCHES[x].nombre}</span></div>`).join("");
+    document.querySelectorAll("#smParList .sp").forEach(el=>el.onclick=()=>{
+      document.querySelectorAll("#smParList .sp").forEach(x=>x.classList.remove("on"));
+      el.classList.add("on"); smState.parcheId=+el.dataset.id; smTotalUpdate();
+    });
+    document.getElementById("smParche").onchange=e=>{
+      smState.par=e.target.checked;
+      document.getElementById("smParFields").classList.toggle("hide",!e.target.checked);
+      smTotalUpdate();
+    };
+  } else parBlock.classList.add("hide");
+
+  smTotalUpdate();
   document.getElementById("sizeModal").classList.add("open");
+}
+function smExtra(){
+  const p=smState.product; let e=0;
+  if(smState.est && p.estampado) e+=p.precioEst;
+  if(smState.par && smState.parcheId && p.parche) e+=p.precioParche;
+  return e;
+}
+function smTotalUpdate(){
+  const p=smState.product; const base=priceOf(p); const tot=base+smExtra();
+  document.getElementById("smTotal").innerHTML = smExtra()>0
+    ? `<span>Total</span> ${money(tot)}` : "";
 }
 function closeSize(){document.getElementById("sizeModal").classList.remove("open");}
 document.getElementById("closeSize").onclick=closeSize;
 document.getElementById("sizeModal").onclick=e=>{if(e.target.id==="sizeModal")closeSize();};
 document.getElementById("smAdd").onclick=()=>{
   if(!smState.size){document.getElementById("smHint").textContent="Elige una talla para continuar";return;}
-  addToCart(smState.id,smState.size);
+  const p=smState.product;
+  let estampado=null, parche=null;
+  if(smState.est && p.estampado){
+    const nombre=document.getElementById("smEstNombre").value.trim();
+    const numero=document.getElementById("smEstNumero").value.trim();
+    if(!nombre && !numero){ document.getElementById("smHint").textContent="Escribe el nombre o número del estampado"; return; }
+    estampado={nombre,numero};
+  }
+  if(smState.par && p.parche){
+    if(!smState.parcheId){ document.getElementById("smHint").textContent="Elige un parche"; return; }
+    parche={id:smState.parcheId, nombre:(PARCHES[smState.parcheId]&&PARCHES[smState.parcheId].nombre)||""};
+  }
+  addToCart(smState.id, smState.size, {estampado, parche});
   closeSize();
 };
 
