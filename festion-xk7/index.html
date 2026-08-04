@@ -123,6 +123,13 @@ label.lbl{display:block;font-size:.78rem;font-weight:600;color:var(--ink);margin
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(30px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:10px;font-size:.88rem;opacity:0;pointer-events:none;transition:.3s;z-index:80}
 .toast.show{opacity:1;transform:translateX(-50%)}
 @media(max-width:620px){.grid2,.grid3{grid-template-columns:1fr}}
+.parche-pick{display:flex;flex-wrap:wrap;gap:10px}
+.parche-pick .pp{border:2px solid var(--line);border-radius:10px;padding:6px;width:86px;text-align:center;cursor:pointer;user-select:none;transition:border-color .15s}
+.parche-pick .pp.on{border-color:var(--red)}
+.parche-pick .pp img{width:58px;height:58px;object-fit:contain;margin:0 auto 4px;display:block}
+.parche-pick .pp span{font-size:.7rem;color:var(--ink);display:block;line-height:1.1}
+.parche-pick .none{font-size:.82rem;color:var(--muted)}
+.pcard .thumb.contain{background-size:contain;background-repeat:no-repeat;background-color:#f3f3f3}
 </style>
 </head>
 <body>
@@ -153,6 +160,7 @@ label.lbl{display:block;font-size:.78rem;font-weight:600;color:var(--ink);margin
       <button class="tab active" data-tab="productos">Productos</button>
       <button class="tab" data-tab="apariencia">Apariencia</button>
       <button class="tab" data-tab="cotizaciones">Cotizaciones</button>
+      <button class="tab" data-tab="parches">Parches</button>
     </div>
     <div class="right">
       <a href="/" target="_blank" class="who">Ver tienda ↗</a>
@@ -231,6 +239,33 @@ label.lbl{display:block;font-size:.78rem;font-weight:600;color:var(--ink);margin
       <div class="panel-head"><div><h1>Cotizaciones</h1><p>Pedidos por mayor que llegan desde la página.</p></div></div>
       <div id="qlist"></div>
     </section>
+
+    <!-- PARCHES -->
+    <section class="panel" id="panel-parches">
+      <div class="panel-head">
+        <div><h1>Parches</h1><p>Los parches de hombro que luego asignas a cada camiseta.</p></div>
+        <button class="btn red" id="newParche">+ Nuevo parche</button>
+      </div>
+      <div class="plist" id="parcheGrid"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ PARCHE MODAL ============ -->
+<div class="modal-bg" id="parcheModal">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-h"><h2>Nuevo parche</h2><button class="x" id="parcheClose">✕</button></div>
+    <div class="modal-b">
+      <img class="prev-img hide" id="parchePrev" style="max-height:150px;margin-bottom:12px">
+      <div class="uploader" id="parcheUp" style="margin-bottom:16px">Subir foto del parche (clic o arrastra)</div>
+      <input type="file" id="parcheFile" accept="image/*" class="hide">
+      <div class="field"><label class="lbl">Nombre del parche</label><input id="parcheNombre" type="text" placeholder="Champions League"></div>
+      <div id="parcheMsg"></div>
+    </div>
+    <div class="modal-f">
+      <button class="btn ghost" id="parcheCancel">Cancelar</button>
+      <button class="btn red" id="parcheSave">Guardar parche</button>
+    </div>
   </div>
 </div>
 
@@ -266,6 +301,24 @@ label.lbl{display:block;font-size:.78rem;font-weight:600;color:var(--ink);margin
       <div class="grid2" style="margin-top:6px">
         <label class="check"><input type="checkbox" id="fDestacado"> Destacado</label>
         <label class="check"><input type="checkbox" id="fDisponible" checked> Visible en la tienda</label>
+      </div>
+
+      <div class="field" style="border-top:1px solid var(--line2);padding-top:16px;margin-top:14px">
+        <label class="check"><input type="checkbox" id="fEstampado"> Permite estampado (nombre + número)</label>
+        <div id="fEstampadoBox" class="hide" style="margin-top:10px">
+          <label class="lbl">Precio del estampado (COP)</label>
+          <input id="fPrecioEst" type="number" placeholder="15000" style="width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;color:var(--ink)">
+        </div>
+      </div>
+      <div class="field">
+        <label class="check"><input type="checkbox" id="fParche"> Permite parche de hombro</label>
+        <p style="font-size:.78rem;color:var(--muted);margin:4px 0 0">Si la camisa ya trae parche incluido, déjalo desactivado.</p>
+        <div id="fParcheBox" class="hide" style="margin-top:10px">
+          <label class="lbl">Precio del parche (cubre ambos hombros, COP)</label>
+          <input id="fPrecioParche" type="number" placeholder="10000" style="width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;color:var(--ink);margin-bottom:14px">
+          <label class="lbl">¿Cuáles parches puede llevar esta camisa?</label>
+          <div class="parche-pick" id="fParchesSel"></div>
+        </div>
       </div>
       <div id="prodMsg"></div>
     </div>
@@ -316,7 +369,7 @@ $("logoutBtn").onclick = async ()=>{ await sb.auth.signOut(); location.reload();
 function showApp(){
   $("loginView").classList.add("hide");
   $("appView").classList.remove("hide");
-  loadProducts(); loadAppearance(); loadQuotes();
+  loadProducts(); loadAppearance(); loadQuotes(); loadParches();
 }
 
 /* ---------------- TABS ---------------- */
@@ -340,6 +393,8 @@ async function uploadImage(file, folder){
 
 /* ---------------- PRODUCTS ---------------- */
 let PRODUCTS = [];
+let PARCHES = [];         // catálogo de parches
+let curParcheFoto = "";   // foto del parche en creación
 let editing = null;       // producto en edición (o null = nuevo)
 let curFotos = [];        // fotos del producto en edición
 
@@ -390,9 +445,24 @@ function openProduct(id){
   $("fTallas").querySelectorAll(".chip").forEach(c=>c.onclick=()=>c.classList.toggle("on"));
   curFotos = Array.isArray(p.fotos)?[...p.fotos]:[];
   renderFotos();
+  $("fEstampado").checked=!!p.permite_estampado;
+  $("fPrecioEst").value=p.precio_estampado||"";
+  $("fEstampadoBox").classList.toggle("hide", !p.permite_estampado);
+  $("fParche").checked=!!p.permite_parche;
+  $("fPrecioParche").value=p.precio_parche||"";
+  $("fParcheBox").classList.toggle("hide", !p.permite_parche);
+  renderParcheSelector(Array.isArray(p.parches_ids)?p.parches_ids.map(Number):[]);
   $("prodMsg").innerHTML="";
   $("prodModal").classList.add("open");
 }
+function renderParcheSelector(selected){
+  const box=$("fParchesSel");
+  if(!PARCHES.length){ box.innerHTML='<div class="none">Aún no hay parches. Créalos en la pestaña "Parches" y vuelve.</div>'; return; }
+  box.innerHTML=PARCHES.map(p=>`<div class="pp ${selected.includes(p.id)?'on':''}" data-id="${p.id}"><img src="${p.foto}" alt=""><span>${p.nombre}</span></div>`).join("");
+  box.querySelectorAll(".pp").forEach(el=>el.onclick=()=>el.classList.toggle("on"));
+}
+$("fEstampado").onchange=e=>$("fEstampadoBox").classList.toggle("hide",!e.target.checked);
+$("fParche").onchange=e=>$("fParcheBox").classList.toggle("hide",!e.target.checked);
 function renderFotos(){
   $("fotoList").innerHTML=curFotos.map((u,i)=>`<div class="foto"><img src="${u}"><button class="del" data-i="${i}">✕</button></div>`).join("");
   $("fotoList").querySelectorAll(".del").forEach(b=>b.onclick=()=>{curFotos.splice(+b.dataset.i,1);renderFotos();});
@@ -420,7 +490,10 @@ $("prodSave").onclick=async ()=>{
     tipo:$("fTipo").value, liga:$("fLiga").value.trim(),
     precio:parseInt($("fPrecio").value)||0, promo:$("fPromo").value?parseInt($("fPromo").value):null,
     tallas, fotos:curFotos, color1:$("fColor1").value, color2:$("fColor2").value,
-    destacado:$("fDestacado").checked, disponible:$("fDisponible").checked
+    destacado:$("fDestacado").checked, disponible:$("fDisponible").checked,
+    permite_estampado:$("fEstampado").checked, precio_estampado:parseInt($("fPrecioEst").value)||0,
+    permite_parche:$("fParche").checked, precio_parche:parseInt($("fPrecioParche").value)||0,
+    parches_ids:[...$("fParchesSel").querySelectorAll(".pp.on")].map(el=>+el.dataset.id)
   };
   if(!row.nombre){ $("prodMsg").innerHTML='<div class="msg err">Ponle un nombre al producto.</div>'; return; }
   const btn=$("prodSave"); btn.innerHTML='<span class="spinner"></span>'; btn.disabled=true;
@@ -440,6 +513,50 @@ async function delProduct(id){
   const { error }=await sb.from("productos").delete().eq("id",id);
   if(error){ toast("Error: "+error.message); return; }
   toast("Producto borrado"); loadProducts();
+}
+
+/* ---------------- PARCHES ---------------- */
+async function loadParches(){
+  const { data, error }=await sb.from("parches").select("*").order("id");
+  PARCHES = error?[]:(data||[]);
+  const grid=$("parcheGrid");
+  if(!PARCHES.length){ grid.innerHTML='<div class="empty-box">Aún no hay parches. Crea el primero con "+ Nuevo parche".</div>'; return; }
+  grid.innerHTML=PARCHES.map(p=>`<div class="pcard">
+    <div class="thumb contain" style="background-image:url('${p.foto}')"></div>
+    <div class="pb"><div class="nm">${p.nombre}</div></div>
+    <div class="acts"><button class="btn ghost sm" data-delp="${p.id}" style="color:var(--red)">Borrar</button></div>
+  </div>`).join("");
+  grid.querySelectorAll("[data-delp]").forEach(b=>b.onclick=()=>delParche(+b.dataset.delp));
+}
+$("newParche").onclick=()=>{
+  curParcheFoto=""; $("parcheNombre").value=""; $("parcheMsg").innerHTML="";
+  $("parchePrev").classList.add("hide"); $("parcheModal").classList.add("open");
+};
+$("parcheClose").onclick=$("parcheCancel").onclick=()=>$("parcheModal").classList.remove("open");
+$("parcheModal").onclick=e=>{if(e.target.id==="parcheModal")$("parcheModal").classList.remove("open");};
+$("parcheUp").onclick=()=>$("parcheFile").click();
+$("parcheFile").onchange=async e=>{
+  const f=e.target.files[0]; if(!f)return;
+  $("parcheUp").textContent="Subiendo…";
+  try{ const url=await uploadImage(f,"parches"); curParcheFoto=url; $("parchePrev").src=url; $("parchePrev").classList.remove("hide"); }
+  catch(err){ $("parcheMsg").innerHTML='<div class="msg err">'+err.message+'</div>'; }
+  $("parcheUp").textContent="Subir foto del parche (clic o arrastra)"; e.target.value="";
+};
+$("parcheSave").onclick=async ()=>{
+  const nombre=$("parcheNombre").value.trim();
+  if(!nombre){ $("parcheMsg").innerHTML='<div class="msg err">Ponle un nombre.</div>'; return; }
+  if(!curParcheFoto){ $("parcheMsg").innerHTML='<div class="msg err">Sube una foto del parche.</div>'; return; }
+  const btn=$("parcheSave"); btn.innerHTML='<span class="spinner"></span>'; btn.disabled=true;
+  const { error }=await sb.from("parches").insert({nombre,foto:curParcheFoto});
+  btn.innerHTML="Guardar parche"; btn.disabled=false;
+  if(error){ $("parcheMsg").innerHTML='<div class="msg err">'+error.message+'</div>'; return; }
+  $("parcheModal").classList.remove("open"); toast("Parche creado"); loadParches();
+};
+async function delParche(id){
+  if(!confirm("¿Borrar este parche? Se quitará de las camisetas que lo usen.")) return;
+  const { error }=await sb.from("parches").delete().eq("id",id);
+  if(error){ toast("Error: "+error.message); return; }
+  toast("Parche borrado"); loadParches();
 }
 
 /* ---------------- APARIENCIA ---------------- */
