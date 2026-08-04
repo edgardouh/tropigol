@@ -258,6 +258,7 @@
   <div class="drawer-items" id="drawerItems"></div>
   <div class="drawer-foot" id="drawerFoot">
     <div class="drawer-total"><span>Total</span><b id="drawerTotal">$0</b></div>
+    <div class="drawer-domi">Domicilio a consultar</div>
     <button class="wa-order" id="waOrder"><svg class="ico"><use href="#i-whatsapp"/></svg> Ordenar por WhatsApp</button>
     <p class="drawer-note">Confirmas tallas y pago directamente por chat.</p>
   </div>
@@ -277,6 +278,23 @@
         <div class="sm-label">Elige tu talla</div>
         <div class="sm-sizes" id="smSizes"></div>
         <div class="sm-hint" id="smHint"></div>
+
+        <div class="sm-extra hide" id="smEstBlock">
+          <label class="sm-check"><input type="checkbox" id="smEstampado"> <span>Agregar estampado (nombre + número)</span> <b id="smEstPrice"></b></label>
+          <div class="sm-fields hide" id="smEstFields">
+            <input type="text" id="smEstNombre" placeholder="Nombre (ej. JAMES)" maxlength="14">
+            <input type="text" id="smEstNumero" placeholder="N°" maxlength="2" inputmode="numeric" style="max-width:80px">
+          </div>
+        </div>
+
+        <div class="sm-extra hide" id="smParBlock">
+          <label class="sm-check"><input type="checkbox" id="smParche"> <span>Agregar parche de hombro</span> <b id="smParPrice"></b></label>
+          <div class="sm-fields hide" id="smParFields">
+            <div class="sm-parches" id="smParList"></div>
+          </div>
+        </div>
+
+        <div class="sm-total" id="smTotal"></div>
         <button class="sm-add" id="smAdd"><svg class="ico"><use href="#i-carrito"/></svg> Agregar al pedido</button>
       </div>
     </div>
