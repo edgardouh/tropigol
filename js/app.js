@@ -172,6 +172,12 @@ function bindCards(){
 
 /* ---------- cart ---------- */
 let cart=[];
+let appliedCode=null;   // {codigo, tipo, valor}
+function computeDiscount(subtotal){
+  if(!appliedCode) return 0;
+  let d = appliedCode.tipo==='porcentaje' ? Math.round(subtotal*appliedCode.valor/100) : appliedCode.valor;
+  return Math.max(0, Math.min(d, subtotal));
+}
 function addToCart(id, size, opts){
   opts=opts||{};
   const p=PRODUCTS.find(x=>x.id===id);
@@ -188,13 +194,22 @@ function addToCart(id, size, opts){
 }
 function updateCart(){
   const count=cart.reduce((a,c)=>a+c.qty,0);
-  const total=cart.reduce((a,c)=>a+c.qty*c.price,0);
+  const subtotal=cart.reduce((a,c)=>a+c.qty*c.price,0);
+  const discount=computeDiscount(subtotal);
+  const total=subtotal-discount;
   document.getElementById("fabTotal").textContent=money(total);
   document.getElementById("fabBadge").textContent=count;
   document.getElementById("navCount").textContent=count;
   document.getElementById("navCount").classList.toggle("show",count>0);
   document.getElementById("cartFab").classList.toggle("show",count>0);
   document.getElementById("drawerTotal").textContent=money(total);
+  const subRow=document.getElementById("subtotalRow"), disRow=document.getElementById("discountRow");
+  if(appliedCode && discount>0){
+    subRow.style.display="flex"; disRow.style.display="flex";
+    document.getElementById("drawerSubtotal").textContent=money(subtotal);
+    document.getElementById("drawerDiscount").textContent="−"+money(discount);
+    document.getElementById("codeTag").textContent="("+appliedCode.codigo+")";
+  } else { subRow.style.display="none"; disRow.style.display="none"; }
   const box=document.getElementById("drawerItems");
   const foot=document.getElementById("drawerFoot");
   if(!cart.length){
@@ -232,7 +247,10 @@ function waOrderLink(){
     if(c.parche) extras+=`%0A   Parche: ${c.parche.nombre}`;
     msg+=`• ${c.qty}x ${c.name} (${c.type}${c.size?`, talla ${c.size}`:""})${extras} — ${money(c.qty*c.price)}%0A`;
   });
-  const total=cart.reduce((a,c)=>a+c.qty*c.price,0);
+  const subtotal=cart.reduce((a,c)=>a+c.qty*c.price,0);
+  const discount=computeDiscount(subtotal);
+  const total=subtotal-discount;
+  if(discount>0){ msg+=`%0ASubtotal: ${money(subtotal)}%0ADescuento (${appliedCode.codigo}): -${money(discount)}`; }
   msg+=`%0A*Total: ${money(total)}*%0A%0A¿Me confirmas disponibilidad y forma de pago?`;
   return "https://wa.me/"+WA_NUMBER+"?text="+msg;
 }
@@ -256,6 +274,30 @@ document.getElementById("openCart").onclick=openDrawer;
 document.getElementById("closeDrawer").onclick=closeDrawer;
 document.getElementById("drawerBg").onclick=closeDrawer;
 document.getElementById("waOrder").onclick=()=>window.open(waOrderLink(),"_blank");
+
+async function applyCode(){
+  const code=document.getElementById("codeInput").value.trim().toUpperCase();
+  const msg=document.getElementById("codeMsg");
+  if(!code){ return; }
+  if(!sb){ msg.className="drawer-codemsg err"; msg.textContent="No se pudo validar el código ahora."; return; }
+  msg.className="drawer-codemsg"; msg.textContent="Validando…";
+  try{
+    const { data } = await sb.from('codigos').select('codigo,tipo,valor').eq('codigo',code).limit(1);
+    if(!data || !data.length){ appliedCode=null; msg.className="drawer-codemsg err"; msg.textContent="Código inválido o vencido."; updateCart(); return; }
+    appliedCode={codigo:data[0].codigo, tipo:data[0].tipo, valor:data[0].valor};
+    msg.className="drawer-codemsg ok"; msg.textContent="¡Código aplicado!";
+    updateCart();
+  }catch(e){ msg.className="drawer-codemsg err"; msg.textContent="No se pudo validar el código."; }
+}
+function removeCode(){
+  appliedCode=null;
+  document.getElementById("codeInput").value="";
+  const msg=document.getElementById("codeMsg"); msg.textContent=""; msg.className="drawer-codemsg";
+  updateCart();
+}
+document.getElementById("codeApply").onclick=applyCode;
+document.getElementById("codeInput").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); applyCode(); }});
+document.getElementById("codeRemove").onclick=removeCode;
 
 /* ---------- size modal ---------- */
 let smState={id:null,size:null};
