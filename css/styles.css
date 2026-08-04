@@ -404,3 +404,20 @@ footer{background:var(--ink);color:rgba(255,255,255,.66)}
 .sm-total span{font-weight:400;color:var(--muted);font-size:.85rem}
 /* domicilio en el carrito */
 .drawer-domi{font-size:.76rem;color:var(--muted);text-align:right;margin:-8px 0 12px}
+
+/* código de descuento en el carrito */
+.drawer-code{display:flex;gap:8px;margin-bottom:8px}
+.drawer-code input{flex:1;padding:11px 12px;border:1px solid var(--line);border-radius:9px;font-size:.88rem;color:var(--ink);text-transform:uppercase;outline:none}
+.drawer-code input:focus{border-color:var(--ink)}
+.drawer-code button{background:var(--ink);color:#fff;padding:0 16px;border-radius:9px;font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em}
+.drawer-code button:hover{background:var(--garnet)}
+.drawer-codemsg{font-size:.76rem;margin-bottom:8px}
+.drawer-codemsg:empty{margin:0}
+.drawer-codemsg.err{color:var(--red)}
+.drawer-codemsg.ok{color:#1f9d55}
+.drawer-line{display:flex;justify-content:space-between;align-items:baseline;font-size:.9rem;color:var(--text);margin-bottom:6px}
+.drawer-line b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.drawer-line.disc,.drawer-line.disc b{color:var(--garnet)}
+.drawer-line #codeTag{color:var(--garnet);font-weight:700}
+.drawer-line #codeRemove{color:var(--muted);font-size:.72rem;margin-left:6px}
+.drawer-line #codeRemove:hover{color:var(--red)}
