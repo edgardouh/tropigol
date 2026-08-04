@@ -257,6 +257,13 @@
   </div>
   <div class="drawer-items" id="drawerItems"></div>
   <div class="drawer-foot" id="drawerFoot">
+    <div class="drawer-code">
+      <input id="codeInput" placeholder="Código de descuento" autocomplete="off">
+      <button id="codeApply">Aplicar</button>
+    </div>
+    <div class="drawer-codemsg" id="codeMsg"></div>
+    <div class="drawer-line" id="subtotalRow" style="display:none"><span>Subtotal</span><b id="drawerSubtotal">$0</b></div>
+    <div class="drawer-line disc" id="discountRow" style="display:none"><span>Descuento <b id="codeTag"></b> <button id="codeRemove" aria-label="Quitar código">✕</button></span><b id="drawerDiscount">−$0</b></div>
     <div class="drawer-total"><span>Total</span><b id="drawerTotal">$0</b></div>
     <div class="drawer-domi">Domicilio a consultar</div>
     <button class="wa-order" id="waOrder"><svg class="ico"><use href="#i-whatsapp"/></svg> Ordenar por WhatsApp</button>
@@ -288,7 +295,7 @@
         </div>
 
         <div class="sm-extra hide" id="smParBlock">
-          <label class="sm-check"><input type="checkbox" id="smParche"> <span>Agregar parche de hombro</span> <b id="smParPrice"></b></label>
+          <label class="sm-check"><input type="checkbox" id="smParche"> <span>Agregar parche</span> <b id="smParPrice"></b></label>
           <div class="sm-fields hide" id="smParFields">
             <div class="sm-parches" id="smParList"></div>
           </div>
