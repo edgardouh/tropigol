@@ -130,6 +130,15 @@ label.lbl{display:block;font-size:.78rem;font-weight:600;color:var(--ink);margin
 .parche-pick .pp span{font-size:.7rem;color:var(--ink);display:block;line-height:1.1}
 .parche-pick .none{font-size:.82rem;color:var(--muted)}
 .pcard .thumb.contain{background-size:contain;background-repeat:no-repeat;background-color:#f3f3f3}
+.crow{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.crow.off{opacity:.5}
+.crow .code{font-family:ui-monospace,monospace;font-weight:700;color:var(--ink);font-size:1.05rem;letter-spacing:.04em}
+.crow .desc{font-size:.85rem;color:var(--muted)}
+.crow .sp{margin-left:auto;display:flex;gap:10px;align-items:center}
+.switch{position:relative;width:40px;height:22px;border-radius:11px;background:var(--line);cursor:pointer;transition:background .2s;flex:none}
+.switch.on{background:var(--ok)}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.switch.on::after{transform:translateX(18px)}
 </style>
 </head>
 <body>
@@ -161,6 +170,7 @@ label.lbl{display:block;font-size:.78rem;font-weight:600;color:var(--ink);margin
       <button class="tab" data-tab="apariencia">Apariencia</button>
       <button class="tab" data-tab="cotizaciones">Cotizaciones</button>
       <button class="tab" data-tab="parches">Parches</button>
+      <button class="tab" data-tab="codigos">Códigos</button>
     </div>
     <div class="right">
       <a href="/" target="_blank" class="who">Ver tienda ↗</a>
@@ -248,6 +258,38 @@ label.lbl{display:block;font-size:.78rem;font-weight:600;color:var(--ink);margin
       </div>
       <div class="plist" id="parcheGrid"></div>
     </section>
+
+    <!-- CODIGOS -->
+    <section class="panel" id="panel-codigos">
+      <div class="panel-head">
+        <div><h1>Códigos de descuento</h1><p>Para promociones o colaboraciones. Aplican sobre el total del pedido.</p></div>
+        <button class="btn red" id="newCodigo">+ Nuevo código</button>
+      </div>
+      <div id="codigoList"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ CODIGO MODAL ============ -->
+<div class="modal-bg" id="codigoModal">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-h"><h2 id="codigoTitle">Nuevo código</h2><button class="x" id="codigoClose">✕</button></div>
+    <div class="modal-b">
+      <div class="field"><label class="lbl">Código</label><input id="cCodigo" type="text" placeholder="INFLUENCER15" style="text-transform:uppercase"></div>
+      <div class="grid2">
+        <div class="field"><label class="lbl">Tipo</label>
+          <select id="cTipo"><option value="porcentaje">Porcentaje (%)</option><option value="fijo">Monto fijo ($)</option></select></div>
+        <div class="field"><label class="lbl" id="cValorLbl">Descuento (%)</label><input id="cValor" type="number" placeholder="15"></div>
+      </div>
+      <label class="check" style="margin:4px 0 0"><input type="checkbox" id="cTieneVence"> Tiene fecha de vencimiento</label>
+      <div class="field hide" id="cVenceBox" style="margin-top:10px"><label class="lbl">Vence el</label><input id="cVence" type="date" style="width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;color:var(--ink)"></div>
+      <label class="check" style="margin-top:12px"><input type="checkbox" id="cActivo" checked> Activo</label>
+      <div id="codigoMsg"></div>
+    </div>
+    <div class="modal-f">
+      <button class="btn ghost" id="codigoCancel">Cancelar</button>
+      <button class="btn red" id="codigoSave">Guardar código</button>
+    </div>
   </div>
 </div>
 
@@ -311,10 +353,10 @@ label.lbl{display:block;font-size:.78rem;font-weight:600;color:var(--ink);margin
         </div>
       </div>
       <div class="field">
-        <label class="check"><input type="checkbox" id="fParche"> Permite parche de hombro</label>
+        <label class="check"><input type="checkbox" id="fParche"> Permite parche</label>
         <p style="font-size:.78rem;color:var(--muted);margin:4px 0 0">Si la camisa ya trae parche incluido, déjalo desactivado.</p>
         <div id="fParcheBox" class="hide" style="margin-top:10px">
-          <label class="lbl">Precio del parche (cubre ambos hombros, COP)</label>
+          <label class="lbl">Precio del parche (COP)</label>
           <input id="fPrecioParche" type="number" placeholder="10000" style="width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;color:var(--ink);margin-bottom:14px">
           <label class="lbl">¿Cuáles parches puede llevar esta camisa?</label>
           <div class="parche-pick" id="fParchesSel"></div>
@@ -369,7 +411,7 @@ $("logoutBtn").onclick = async ()=>{ await sb.auth.signOut(); location.reload();
 function showApp(){
   $("loginView").classList.add("hide");
   $("appView").classList.remove("hide");
-  loadProducts(); loadAppearance(); loadQuotes(); loadParches();
+  loadProducts(); loadAppearance(); loadQuotes(); loadParches(); loadCodigos();
 }
 
 /* ---------------- TABS ---------------- */
@@ -557,6 +599,76 @@ async function delParche(id){
   const { error }=await sb.from("parches").delete().eq("id",id);
   if(error){ toast("Error: "+error.message); return; }
   toast("Parche borrado"); loadParches();
+}
+
+/* ---------------- CODIGOS ---------------- */
+let editingCode=null;
+const fmtMoney = n => "$"+Number(n||0).toLocaleString("es-CO");
+async function loadCodigos(){
+  const { data, error }=await sb.from("codigos").select("*").order("id",{ascending:false});
+  const list=$("codigoList");
+  if(error){ list.innerHTML='<div class="empty-box">No pude cargar códigos.<br>'+error.message+'</div>'; return; }
+  if(!data||!data.length){ list.innerHTML='<div class="empty-box">Aún no hay códigos. Crea el primero con "+ Nuevo código".</div>'; return; }
+  list.innerHTML=data.map(c=>{
+    const desc = c.tipo==='porcentaje' ? `${c.valor}% de descuento` : `${fmtMoney(c.valor)} de descuento`;
+    const ven = c.vence ? `· vence ${c.vence}` : '· sin vencimiento';
+    return `<div class="crow ${c.activo?'':'off'}">
+      <div><div class="code">${c.codigo}</div><div class="desc">${desc} ${ven}</div></div>
+      <div class="sp">
+        <div class="switch ${c.activo?'on':''}" data-toggle="${c.id}" data-act="${c.activo?1:0}" title="Activar/Desactivar"></div>
+        <button class="btn ghost sm" data-editc="${c.id}">Editar</button>
+        <button class="btn ghost sm" data-delc="${c.id}" style="color:var(--red)">Borrar</button>
+      </div>
+    </div>`;
+  }).join("");
+  list.querySelectorAll("[data-toggle]").forEach(el=>el.onclick=()=>toggleCodigo(+el.dataset.toggle, el.dataset.act!=="1"));
+  list.querySelectorAll("[data-editc]").forEach(b=>b.onclick=()=>openCodigo(data.find(x=>x.id===+b.dataset.editc)));
+  list.querySelectorAll("[data-delc]").forEach(b=>b.onclick=()=>delCodigo(+b.dataset.delc));
+}
+function openCodigo(c){
+  editingCode=c||null;
+  $("codigoTitle").textContent=c?"Editar código":"Nuevo código";
+  $("cCodigo").value=c?c.codigo:"";
+  $("cTipo").value=c?c.tipo:"porcentaje";
+  $("cValor").value=c?c.valor:"";
+  $("cValorLbl").textContent=($("cTipo").value==="porcentaje")?"Descuento (%)":"Descuento ($)";
+  $("cActivo").checked=c?c.activo:true;
+  $("cTieneVence").checked=!!(c&&c.vence);
+  $("cVence").value=(c&&c.vence)?c.vence:"";
+  $("cVenceBox").classList.toggle("hide", !(c&&c.vence));
+  $("codigoMsg").innerHTML="";
+  $("codigoModal").classList.add("open");
+}
+$("newCodigo").onclick=()=>openCodigo(null);
+$("cTipo").onchange=()=>$("cValorLbl").textContent=($("cTipo").value==="porcentaje")?"Descuento (%)":"Descuento ($)";
+$("cTieneVence").onchange=e=>$("cVenceBox").classList.toggle("hide",!e.target.checked);
+$("codigoClose").onclick=$("codigoCancel").onclick=()=>$("codigoModal").classList.remove("open");
+$("codigoModal").onclick=e=>{if(e.target.id==="codigoModal")$("codigoModal").classList.remove("open");};
+$("codigoSave").onclick=async ()=>{
+  const codigo=$("cCodigo").value.trim().toUpperCase();
+  const valor=parseInt($("cValor").value)||0;
+  if(!codigo){ $("codigoMsg").innerHTML='<div class="msg err">Escribe el código.</div>'; return; }
+  if(valor<=0){ $("codigoMsg").innerHTML='<div class="msg err">El descuento debe ser mayor a 0.</div>'; return; }
+  if($("cTipo").value==="porcentaje" && valor>100){ $("codigoMsg").innerHTML='<div class="msg err">El porcentaje no puede pasar de 100.</div>'; return; }
+  const row={ codigo, tipo:$("cTipo").value, valor, activo:$("cActivo").checked, vence:$("cTieneVence").checked&&$("cVence").value?$("cVence").value:null };
+  const btn=$("codigoSave"); btn.innerHTML='<span class="spinner"></span>'; btn.disabled=true;
+  let error;
+  if(editingCode){ ({error}=await sb.from("codigos").update(row).eq("id",editingCode.id)); }
+  else { ({error}=await sb.from("codigos").insert(row)); }
+  btn.innerHTML="Guardar código"; btn.disabled=false;
+  if(error){ $("codigoMsg").innerHTML='<div class="msg err">'+(error.message.includes("duplicate")?"Ese código ya existe.":error.message)+'</div>'; return; }
+  $("codigoModal").classList.remove("open"); toast(editingCode?"Código actualizado":"Código creado"); loadCodigos();
+};
+async function toggleCodigo(id, activo){
+  const { error }=await sb.from("codigos").update({activo}).eq("id",id);
+  if(error){ toast("Error: "+error.message); return; }
+  loadCodigos();
+}
+async function delCodigo(id){
+  if(!confirm("¿Borrar este código?")) return;
+  const { error }=await sb.from("codigos").delete().eq("id",id);
+  if(error){ toast("Error: "+error.message); return; }
+  toast("Código borrado"); loadCodigos();
 }
 
 /* ---------------- APARIENCIA ---------------- */
